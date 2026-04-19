@@ -19,15 +19,19 @@ __version__ = "0.1.0"
 __author__ = "Stephen Kwaku Azongo"
 
 from . import data
-from . import models
 from . import detectors
+from . import evaluation
+from . import experiments
+from . import models
 from . import simulators
 from . import utils
 
 __all__ = [
     'data',
-    'models',
     'detectors',
+    'evaluation',
+    'experiments',
+    'models',
     'simulators',
     'utils',
 ]

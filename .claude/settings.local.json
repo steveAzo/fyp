@@ -1,0 +1,10 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(python run_experiments.py --mode quick)",
+      "Bash(python -c ':*)",
+      "Bash(python analyse.py)",
+      "Bash(grep -v \"^Loading\\\\|^  8,100\\\\|^===\\\\|^Total\\\\|^Missed\\\\|^$\\\\|^--\\\\|monitoring\\\\|window\\\\|detector\\\\|dataset\\\\|credit\\\\|maint\\\\|telco\\\\|KS\\\\|PSI\\\\|Wass\")"
+    ]
+  }
+}

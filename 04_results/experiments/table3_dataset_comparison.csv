@@ -1,0 +1,10 @@
+dataset,drift_label,baseline_accuracy,post_drift_accuracy,accuracy_degradation
+Credit Default,Gradual,0.8145,0.8095,0.005
+Credit Default,Recurring,0.8145,0.8105,0.004
+Credit Default,Sudden,0.8145,0.8098,0.0047
+Predictive Maint.,Gradual,0.9805,0.9361,0.0445
+Predictive Maint.,Recurring,0.9805,0.9535,0.0271
+Predictive Maint.,Sudden,0.9805,0.9294,0.0511
+Telco Churn,Gradual,0.7897,0.7864,0.0033
+Telco Churn,Recurring,0.7897,0.7925,-0.0028
+Telco Churn,Sudden,0.7897,0.7891,0.0006
