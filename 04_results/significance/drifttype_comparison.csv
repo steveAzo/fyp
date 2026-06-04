@@ -1,0 +1,4 @@
+group_a,group_b,n_a,n_b,u_statistic,p_value_raw,p_value_bonferroni,effect_size_r,significant
+gradual,recurring,2700,2645,4670331.5,0.0,0.0,-0.308,True
+gradual,sudden,2700,2700,4745081.5,0.0,0.0,-0.302,True
+recurring,sudden,2645,2700,3526975.0,0.4351,1.0,0.012,False

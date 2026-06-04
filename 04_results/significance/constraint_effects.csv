@@ -1,0 +1,4 @@
+constraint,spearman_rho,spearman_p,kruskal_h,kruskal_p,significant
+monitoring_frequency,0.487,0.0,1948.767,0.0,True
+window_size,0.543,0.0,2381.184,0.0,True
+reference_size,0.012,0.2751,50.015,0.0,True

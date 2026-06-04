@@ -1,0 +1,4 @@
+group_a,group_b,n_a,n_b,u_statistic,p_value_raw,p_value_bonferroni,effect_size_r,significant
+lightgbm,logistic_regression,135,135,10350.0,0.0535,0.1604,-0.136,False
+lightgbm,random_forest,135,135,12600.0,0.0,0.0,-0.383,True
+logistic_regression,random_forest,135,135,10800.0,0.0084,0.0253,-0.185,True

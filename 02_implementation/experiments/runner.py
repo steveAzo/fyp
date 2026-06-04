@@ -88,6 +88,7 @@ def run_experiment(cfg: ExperimentConfig) -> Optional[ExperimentMetrics]:
         training = train_model(
             dataset.X_reference, dataset.y_reference,
             dataset.X_stream, dataset.y_stream,
+            model_type=cfg.model,
             random_state=cfg.random_state,
         )
         baseline_accuracy = training.accuracy
@@ -152,6 +153,7 @@ def run_experiment(cfg: ExperimentConfig) -> Optional[ExperimentMetrics]:
             detector=cfg.detector,
             drift_type=cfg.drift_type,
             drift_feature=cfg.drift_feature,
+            model=cfg.model,
             monitoring_frequency=cfg.monitoring_frequency,
             window_size=cfg.window_size,
             reference_size=cfg.reference_size if cfg.reference_size is not None else -1,
@@ -202,6 +204,7 @@ def run_experiment_batch(
         for _, row in existing.iterrows():
             completed.add((
                 row["dataset"], row["detector"], row["drift_type"], row["drift_feature"],
+                row["model"],
                 int(row["monitoring_frequency"]), int(row["window_size"]),
                 int(row["reference_size"]), int(row["repetition"]),
             ))

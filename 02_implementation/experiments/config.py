@@ -18,6 +18,7 @@ class ExperimentConfig:
     detector: str                 # "ks"     | "psi"   | "wasserstein"
     drift_type: str               # "sudden" | "gradual" | "recurring"
     drift_feature: str            # column name to inject drift into
+    model: str                    # "random_forest" | "logistic_regression" | "lightgbm"
 
     # Resource constraint dimensions (independent variables)
     monitoring_frequency: int     # check every N stream samples
@@ -36,6 +37,7 @@ class ExperimentConfig:
         """Unique identifier for deduplication when resuming runs."""
         return (
             self.dataset, self.detector, self.drift_type, self.drift_feature,
+            self.model,
             self.monitoring_frequency, self.window_size,
             self.reference_size if self.reference_size is not None else -1,
             self.repetition,

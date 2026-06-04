@@ -1,0 +1,4 @@
+group_a,group_b,n_a,n_b,u_statistic,p_value_raw,p_value_bonferroni,effect_size_r,significant
+ks,psi,2670,2685,3041567.5,0.0,0.0,0.151,True
+ks,wasserstein,2670,2690,3696355.0,0.0619,0.1858,-0.029,False
+psi,wasserstein,2685,2690,4248867.5,0.0,0.0,-0.177,True

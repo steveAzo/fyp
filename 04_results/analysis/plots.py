@@ -299,7 +299,7 @@ def plot_delay_by_drift_type(df: pd.DataFrame, output_dir: Path) -> Path:
     ax.set_title("Detection Delay Distribution by Drift Type and Detector", fontsize=13)
     ax.set_xlabel("Drift Type")
     ax.set_ylabel("Detection Delay (samples)")
-    ax.legend(title="Detector")
+    ax.legend(title="Detector", loc="upper left", bbox_to_anchor=(0.01, 0.99))
     plt.tight_layout()
     return _save(fig, output_dir, "fig6_delay_by_drift_type.png")
 

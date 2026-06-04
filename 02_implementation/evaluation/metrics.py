@@ -18,6 +18,7 @@ class ExperimentMetrics:
     detector: str
     drift_type: str
     drift_feature: str
+    model: str
     monitoring_frequency: int
     window_size: int
     reference_size: int          # -1 means unlimited
@@ -55,6 +56,7 @@ def compute_metrics(
     detector: str,
     drift_type: str,
     drift_feature: str,
+    model: str,
     monitoring_frequency: int,
     window_size: int,
     reference_size: int,
@@ -87,6 +89,7 @@ def compute_metrics(
         detector=detector,
         drift_type=drift_type,
         drift_feature=drift_feature,
+        model=model,
         monitoring_frequency=monitoring_frequency,
         window_size=window_size,
         reference_size=reference_size,

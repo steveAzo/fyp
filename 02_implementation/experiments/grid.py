@@ -1,8 +1,8 @@
 """
 Generate lists of ExperimentConfig covering the full experimental design.
 
-Full grid  (~4 860 configs):
-    3 datasets × 3 detectors × 3 drift types × 4 monitoring frequencies
+Full grid  (8 100 configs):
+    3 datasets × 3 detectors × 3 drift types × 5 monitoring frequencies
     × 4 window sizes × 3 reference sizes × 5 repetitions
 
 Quick grid (~108 configs):
@@ -34,6 +34,7 @@ def generate_full_grid(
     monitoring_frequencies: list[int] | None = None,
     window_sizes: list[int] | None = None,
     reference_sizes: list[Optional[int]] | None = None,
+    model: str = "random_forest",
     n_repetitions: int = 5,
     drift_magnitude: float = 2.0,
     random_state: int = 42,
@@ -65,6 +66,7 @@ def generate_full_grid(
                 detector=detector,
                 drift_type=drift_type,
                 drift_feature=feature,
+                model=model,
                 monitoring_frequency=freq,
                 window_size=win,
                 reference_size=ref_size,
@@ -96,3 +98,45 @@ def generate_quick_grid(
         n_repetitions=n_repetitions,
         random_state=0,
     )
+
+
+def generate_model_comparison_grid(
+    datasets: list[str] | None = None,
+    n_repetitions: int = 5,
+) -> list[ExperimentConfig]:
+    """
+    Cross all three models at a single representative constraint configuration.
+
+    Holds constraints fixed (monitoring_frequency=100, window_size=500,
+    reference_size=None) so that any difference in results is attributable
+    to model choice, not constraint variation.
+
+    3 models × 3 datasets × 3 detectors × 3 drift types × 5 reps = 405 configs.
+    """
+    models = ["random_forest", "logistic_regression", "lightgbm"]
+    configs: list[ExperimentConfig] = []
+
+    for model, dataset, detector, drift_type, rep in product(
+        models,
+        datasets or ["credit", "telco", "maintenance"],
+        ["ks", "psi", "wasserstein"],
+        ["sudden", "gradual", "recurring"],
+        range(n_repetitions),
+    ):
+        feature = PRIMARY_FEATURES[dataset]
+        configs.append(
+            ExperimentConfig(
+                dataset=dataset,
+                detector=detector,
+                drift_type=drift_type,
+                drift_feature=feature,
+                model=model,
+                monitoring_frequency=100,
+                window_size=500,
+                reference_size=None,
+                repetition=rep,
+                random_state=42,
+            )
+        )
+
+    return configs
