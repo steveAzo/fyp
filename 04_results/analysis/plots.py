@@ -305,6 +305,56 @@ def plot_delay_by_drift_type(df: pd.DataFrame, output_dir: Path) -> Path:
 
 
 # ---------------------------------------------------------------------------
+# Fig 8 — Model robustness to drift (accuracy degradation by model, per dataset)
+# ---------------------------------------------------------------------------
+
+_MODEL_ORDER = ["random_forest", "lightgbm", "logistic_regression"]
+_MODEL_LABELS = {
+    "random_forest": "Random Forest",
+    "lightgbm": "LightGBM",
+    "logistic_regression": "Logistic Regression",
+}
+
+
+def plot_model_robustness(df: pd.DataFrame, output_dir: Path) -> Path:
+    """
+    Grouped bar chart: x = dataset, hue = model.
+    Answers RQ4: which model degrades least under drift?
+    Expects the model_comparison.csv schema (dataset, model, accuracy_degradation).
+    """
+    agg = (
+        df.groupby(["dataset", "model"])["accuracy_degradation"]
+        .mean()
+        .reset_index()
+    )
+    agg["dataset_label"] = agg["dataset"].map(_DATASET_LABELS)
+    agg["model_label"] = agg["model"].map(_MODEL_LABELS)
+
+    fig, ax = plt.subplots(figsize=(10, 5))
+    sns.barplot(
+        data=agg,
+        x="dataset_label",
+        y="accuracy_degradation",
+        hue="model_label",
+        hue_order=[_MODEL_LABELS[m] for m in _MODEL_ORDER],
+        order=[_DATASET_LABELS[d] for d in _DATASET_ORDER],
+        palette="muted",
+        ax=ax,
+    )
+
+    for container in ax.containers:
+        ax.bar_label(container, fmt="%.3f", fontsize=9, padding=2)
+
+    ax.set_title("Model Accuracy Degradation Under Drift, by Model", fontsize=13)
+    ax.set_xlabel("Dataset")
+    ax.set_ylabel("Accuracy Degradation (baseline − post-drift)")
+    ax.axhline(0, color="black", linewidth=0.8, linestyle="--")
+    ax.legend(title="Model")
+    plt.tight_layout()
+    return _save(fig, output_dir, "fig8_model_robustness.png")
+
+
+# ---------------------------------------------------------------------------
 # Fig 7 — False positive rate by detector
 # ---------------------------------------------------------------------------
 

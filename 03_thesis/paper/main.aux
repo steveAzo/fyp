@@ -1,0 +1,77 @@
+\relax 
+\providecommand\hyper@newdestlabel[2]{}
+\providecommand\HyField@AuxAddToFields[1]{}
+\providecommand\HyField@AuxAddToCoFields[2]{}
+\citation{gama2013}
+\citation{lu2019}
+\citation{barros2018}
+\citation{lukats2024}
+\citation{gama2013}
+\citation{lu2019}
+\@writefile{toc}{\contentsline {section}{\numberline {I}Introduction}{1}{section.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {II}Related Work}{1}{section.2}\protected@file@percent }
+\citation{barros2018}
+\citation{lukats2024}
+\citation{pathi2025}
+\citation{taplin2019}
+\citation{prashanth2025}
+\citation{christen2024}
+\citation{yang2021}
+\citation{preuveneers2020}
+\@writefile{toc}{\contentsline {section}{\numberline {III}Methodology}{2}{section.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {III-A}}Datasets}{2}{subsection.3.1}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {I}{\ignorespaces Dataset Summary}}{2}{table.1}\protected@file@percent }
+\newlabel{tab:datasets}{{I}{2}{Dataset Summary}{table.1}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {III-B}}Drift Simulation}{2}{subsection.3.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {III-C}}Drift Detectors}{2}{subsection.3.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {III-D}}Constraint Grid}{2}{subsection.3.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {III-E}}Evaluation Metrics}{3}{subsection.3.5}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {III-F}}Statistical Analysis}{3}{subsection.3.6}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {III-G}}Model Comparison}{3}{subsection.3.7}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {IV}Results}{3}{section.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {IV-A}}Detector Performance (RQ1)}{3}{subsection.4.1}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {II}{\ignorespaces Detector Performance (mean across all conditions)}}{3}{table.2}\protected@file@percent }
+\newlabel{tab:detectors}{{II}{3}{Detector Performance (mean across all conditions)}{table.2}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {1}{\ignorespaces Mean total computation time (ms) per monitoring run, by detector and window size. PSI's cost is effectively independent of window size (fixed bin structure); KS scales sharply with window size due to repeated sorting and hypothesis-test overhead.}}{3}{figure.1}\protected@file@percent }
+\newlabel{fig:compute}{{1}{3}{Mean total computation time (ms) per monitoring run, by detector and window size. PSI's cost is effectively independent of window size (fixed bin structure); KS scales sharply with window size due to repeated sorting and hypothesis-test overhead}{figure.1}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {IV-B}}Drift Type Effects (RQ2)}{3}{subsection.4.2}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces Detection delay distribution (boxplot) by drift type and detector. Gradual drift shows both a higher median delay and a wider spread than sudden or recurring drift, across all three detectors.}}{3}{figure.2}\protected@file@percent }
+\newlabel{fig:driftdelay}{{2}{3}{Detection delay distribution (boxplot) by drift type and detector. Gradual drift shows both a higher median delay and a wider spread than sudden or recurring drift, across all three detectors}{figure.2}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {IV-C}}Resource Constraint Effects (RQ3)}{4}{subsection.4.3}\protected@file@percent }
+\newlabel{sec:constraints}{{\mbox  {IV-C}}{4}{Resource Constraint Effects (RQ3)}{subsection.4.3}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {III}{\ignorespaces Constraint Parameter Effects on Detection Delay}}{4}{table.3}\protected@file@percent }
+\newlabel{tab:constraints}{{III}{4}{Constraint Parameter Effects on Detection Delay}{table.3}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {3}{\ignorespaces Mean detection delay (samples) by monitoring frequency $\times $ window size, faceted by detector. The pattern is consistent across all three detectors: delay grows with both coarser monitoring frequency and larger window size, and the two effects compound.}}{4}{figure.3}\protected@file@percent }
+\newlabel{fig:heatmap}{{3}{4}{Mean detection delay (samples) by monitoring frequency $\times $ window size, faceted by detector. The pattern is consistent across all three detectors: delay grows with both coarser monitoring frequency and larger window size, and the two effects compound}{figure.3}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4}{\ignorespaces Detection delay as a function of monitoring frequency, with one line per window size, faceted by detector. The near-parallel, non-overlapping curves show that window size and monitoring frequency act as largely independent, additive levers on detection delay.}}{4}{figure.4}\protected@file@percent }
+\newlabel{fig:tradeoff}{{4}{4}{Detection delay as a function of monitoring frequency, with one line per window size, faceted by detector. The near-parallel, non-overlapping curves show that window size and monitoring frequency act as largely independent, additive levers on detection delay}{figure.4}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {IV-D}}Model Robustness Under Drift (RQ4)}{4}{subsection.4.4}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {IV}{\ignorespaces Model Robustness to Drift-Induced Degradation}}{4}{table.4}\protected@file@percent }
+\newlabel{tab:models}{{IV}{4}{Model Robustness to Drift-Induced Degradation}{table.4}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {5}{\ignorespaces Mean accuracy degradation (baseline minus post-drift accuracy) by model, per dataset. Random Forest's advantage over LightGBM holds in direction across all three datasets. Logistic Regression's poor aggregate performance is driven almost entirely by Telco Churn, where it is the least robust model by a wide margin; on the other two datasets it is competitive with or better than both ensembles.}}{4}{figure.5}\protected@file@percent }
+\newlabel{fig:modelrobustness}{{5}{4}{Mean accuracy degradation (baseline minus post-drift accuracy) by model, per dataset. Random Forest's advantage over LightGBM holds in direction across all three datasets. Logistic Regression's poor aggregate performance is driven almost entirely by Telco Churn, where it is the least robust model by a wide margin; on the other two datasets it is competitive with or better than both ensembles}{figure.5}{}}
+\citation{barros2018}
+\citation{barros2018}
+\citation{barros2018}
+\citation{pathi2025}
+\citation{pathi2025}
+\@writefile{toc}{\contentsline {section}{\numberline {V}Discussion}{5}{section.5}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {V-A}}The Priority Hierarchy}{5}{subsection.5.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {V-B}}The Reference Window Threshold}{5}{subsection.5.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {V-C}}Positioning Relative to Prior Work}{5}{subsection.5.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {V-D}}Limitations}{5}{subsection.5.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {VI}Conclusion}{5}{section.6}\protected@file@percent }
+\bibstyle{IEEEtran}
+\bibdata{references}
+\bibcite{gama2013}{1}
+\bibcite{lu2019}{2}
+\bibcite{barros2018}{3}
+\bibcite{lukats2024}{4}
+\bibcite{pathi2025}{5}
+\bibcite{taplin2019}{6}
+\bibcite{prashanth2025}{7}
+\bibcite{christen2024}{8}
+\bibcite{yang2021}{9}
+\bibcite{preuveneers2020}{10}
+\@writefile{toc}{\contentsline {section}{References}{6}{section*.1}\protected@file@percent }
+\gdef \@abspage@last{6}

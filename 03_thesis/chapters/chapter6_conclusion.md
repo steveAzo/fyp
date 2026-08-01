@@ -46,11 +46,11 @@ The priority order of decisions for resource-constrained drift monitoring deploy
 
 ### 6.2.4 Findings on Model Robustness (RQ4)
 
-Random Forest is significantly more robust to drift-induced performance degradation than either LightGBM or Logistic Regression. The pairwise comparison between Random Forest and LightGBM yields a medium effect size (rank-biserial r = −0.383, p < 0.001); the comparison between Random Forest and Logistic Regression yields a small but significant effect (r = −0.185, p < 0.001). LightGBM and Logistic Regression do not differ significantly from each other (p = 0.221).
+Random Forest is significantly more robust to drift-induced performance degradation than either LightGBM or Logistic Regression. The pairwise comparison between Random Forest and LightGBM yields a medium effect size (rank-biserial r = −0.383, p < 0.001); the comparison between Random Forest and Logistic Regression yields a small but significant effect (r = −0.185, p = 0.025, Bonferroni-corrected). LightGBM and Logistic Regression do not differ significantly from each other (p = 0.160, Bonferroni-corrected).
 
-The pattern — Random Forest most robust, LightGBM least robust, Logistic Regression intermediate — is consistent with the interpretation that gradient boosting's higher model complexity, while providing accuracy advantages in stationary conditions, makes it more susceptible to overfitting to the specific characteristics of the training distribution. Random Forest's bagging and feature randomisation provide a form of robustness through ensemble diversity.
+The pattern — Random Forest clearly most robust, with LightGBM and Logistic Regression statistically indistinguishable from each other — is consistent with the interpretation that Random Forest's bagging and per-split feature randomisation decorrelate its constituent trees, so that a shift affecting one feature's decision boundary is not shared by the whole ensemble. LightGBM's sequential, residual-fitting boosting procedure has no equivalent decorrelation mechanism, which plausibly explains why it does not share Random Forest's robustness advantage (Section 5.5.1 develops this mechanism in full).
 
-This finding complicates the common recommendation to prefer gradient boosting over random forests for tabular data. Under drift conditions, the accuracy advantage of LightGBM may be outweighed by its greater vulnerability to performance degradation when the deployment distribution shifts — a consideration that should inform model selection in applications where drift is expected and retraining is expensive.
+This finding complicates the common recommendation to prefer gradient boosting over random forests for tabular data. Baseline accuracy is essentially equal across all three models on the datasets tested, so Random Forest's robustness advantage under drift is not offset by any meaningful accuracy cost in stationary conditions — a consideration that should inform model selection in applications where drift is expected and retraining is expensive.
 
 ---
 
@@ -118,12 +118,12 @@ Barros, R. S. M., & Santos, S. G. T. C. (2018). A large-scale comparison of conc
 
 Gama, J., Žliobaitė, I., Bifet, A., Pechenizkiy, M., & Bouchachia, A. (2013). A survey on concept drift adaptation. *ACM Computing Surveys*, 46(4), 1–37.
 
-Lukats, G., Zielinski, O., Hahn, A., & Stahl, F. (2024). Benchmarking fully unsupervised concept drift detection. *International Journal of Data Science and Analytics*, 19, 1–31.
+Lukats, D., Zielinski, O., Hahn, A., & Stahl, F. (2024). A benchmark and survey of fully unsupervised concept drift detectors on real-world data streams. *International Journal of Data Science and Analytics*, 19, 1–31.
 
 Pathi, N. (2025). Model evaluation beyond AUC: A comparative study of Somers' D, KS statistic, and PSI. *Proceedings of ICRTCSIT 2025*.
 
 Prashanth, B. R., Kumar, A., Puneetha, P., & Vinay, S. (2025). Drift detection using Bayesian neural networks and Wasserstein distance. *IEEE International Conference on Advances in Machine Intelligence and Applications (AMATHE 2025)*.
 
-Taplin, R., & Hunt, L. (2019). Evaluating the population stability index. *Journal of Applied Statistics*, 46(6), 1099–1119.
+Taplin, R., & Hunt, C. (2019). The population accuracy index: A new measure of population stability for model monitoring. *Risks*, 7(2), 53.
 
-Yang, L., & Shami, A. (2021). On hyperparameter optimization of machine learning algorithms: Theory and practice. *Neurocomputing*, 415, 295–316.
+Yang, L., & Shami, A. (2021). A lightweight concept drift detection and adaptation framework for IoT data streams. *IEEE Internet of Things Magazine*, 4(2), 96–101.

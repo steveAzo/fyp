@@ -258,10 +258,10 @@ Lu, J., Liu, A., Dong, F., Gu, F., Gama, J., & Zhang, G. (2019). Learning under 
 
 Massey, F. J. (1951). The Kolmogorov-Smirnov test for goodness of fit. *Journal of the American Statistical Association*, 46(253), 68–78. https://doi.org/10.2307/2280095
 
-Preuveneers, D., Rimmer, A., Tsingenopoulos, I., Spooren, J., Joosen, W., & Ilie-Zudor, E. (2020). Chained anomaly detection models for federated learning: An intrusion detection case study. *Applied Sciences*, 10(21), 7659. https://doi.org/10.3390/app10217659
+Preuveneers, D., Tsingenopoulos, I., & Joosen, W. (2020). Resource usage and performance trade-offs for machine learning models in smart environments. *Sensors*, 20(4), 1176. https://doi.org/10.3390/s20041176
 
 Suárez-Cetrulo, A., Quintana, D., & Cervantes, A. (2022). A survey on machine learning for recurring concept drifting data streams. *Expert Systems with Applications*, 213, 118934. https://doi.org/10.1016/j.eswa.2022.118934
 
-Taplin, R. H., & Hunt, K. (2019). Comments on "A comparison of the Population Stability Index and the Kolmogorov-Smirnov test: A case study in credit risk." *Journal of Risk Model Validation*, 13(1). https://doi.org/10.21314/JRMV.2019.196
+Taplin, R., & Hunt, C. (2019). The population accuracy index: A new measure of population stability for model monitoring. *Risks*, 7(2), 53. https://www.mdpi.com/2227-9091/7/2/53
 
 Yang, L., & Shami, A. (2021). A Lightweight Concept Drift Detection and Adaptation Framework for IoT Data Streams. *IEEE Internet of Things Magazine*, 4, 96–101. https://doi.org/10.1109/iotm.0001.2100012
