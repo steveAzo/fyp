@@ -72,4 +72,9 @@ D.~Preuveneers, I.~Tsingenopoulos, and W.~Joosen, ``Resource usage and
   performance trade-offs for machine learning models in smart environments,''
   \emph{Sensors}, vol.~20, no.~4, p. 1176, 2020.
 
+\bibitem{rabanser2019}
+S.~Rabanser, S.~G{\"u}nnemann, and Z.~Lipton, ``Failing loudly: An empirical
+  study of methods for detecting dataset shift,'' \emph{Advances in Neural
+  Information Processing Systems}, vol.~32, pp. 1394--1406, 2019.
+
 \end{thebibliography}

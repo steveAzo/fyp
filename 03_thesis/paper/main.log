@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.28 (MiKTeX 25.12) (preloaded format=pdflatex 2026.3.26)  31 JUL 2026 09:33
+This is pdfTeX, Version 3.141592653-2.6-1.40.28 (MiKTeX 25.12) (preloaded format=pdflatex 2026.3.26)  6 AUG 2026 15:47
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -427,30 +427,31 @@ Package hyperref Info: Link coloring OFF on input line 10.
 \@outlinefile=\write3
 \openout3 = `main.out'.
 
-LaTeX Font Info:    Trying to load font information for U+msa on input line 25.
+LaTeX Font Info:    Calculating math sizes for size <11> on input line 21.
+LaTeX Font Info:    Trying to load font information for U+msa on input line 21.
 
 
 (C:\Users\User\AppData\Local\Programs\MiKTeX\tex/latex/amsfonts\umsa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
-LaTeX Font Info:    Trying to load font information for U+msb on input line 25.
+LaTeX Font Info:    Trying to load font information for U+msb on input line 21.
 
 
 (C:\Users\User\AppData\Local\Programs\MiKTeX\tex/latex/amsfonts\umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 )
-Underfull \hbox (badness 2221) in paragraph at lines 40--41
+Underfull \hbox (badness 2221) in paragraph at lines 38--39
 []\OT1/ptm/m/n/10 This pa-per ad-dresses that gap through a sys-tem-atic,
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 43--44
+Underfull \hbox (badness 10000) in paragraph at lines 41--42
 []\OT1/ptm/b/n/10 A constraint-performance sur-face \OT1/ptm/m/n/10 for three
  []
 
 
-Underfull \hbox (badness 2762) in paragraph at lines 43--44
-\OT1/ptm/m/n/10 con-fig-u-ra-tions: the first study to treat mon-i-tor-ing
+Underfull \hbox (badness 10000) in paragraph at lines 41--42
+\OT1/ptm/m/n/10 ex-per-i-men-tal runs (1,620 dis-tinct con-fig-u-ra-tions
  []
 
 [1{C:/Users/User/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map}{C:/Users/Use
@@ -458,65 +459,81 @@ r/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/base/8r.enc}
 
 
 ]
-Underfull \hbox (badness 7649) in paragraph at lines 62--63
+Underfull \hbox (badness 7649) in paragraph at lines 60--61
 []\OT1/ptm/m/n/10 Three pub-licly avail-able tab-u-lar, binary-classification
  []
 
+[2]
+Underfull \hbox (badness 1661) in paragraph at lines 106--107
+[]\OT1/ptm/b/n/10 Monitoring fre-quency (F): $\OMS/cmsy/m/n/10 f\OT1/cmr/m/n/10
+ 10\OML/cmm/m/it/10 ; \OT1/cmr/m/n/10 50\OML/cmm/m/it/10 ; \OT1/cmr/m/n/10 100\
+OML/cmm/m/it/10 ; \OT1/cmr/m/n/10 500\OML/cmm/m/it/10 ; \OT1/cmr/m/n/10 1[]000\
+OMS/cmsy/m/n/10 g$
+ []
 
-Underfull \hbox (badness 10000) in paragraph at lines 110--111
+
+Underfull \hbox (badness 10000) in paragraph at lines 108--109
 []\OT1/ptm/b/n/10 Reference win-dow size (R):
  []
 
-[2]
+
 Underfull \hbox (badness 3668) in paragraph at lines 125--126
 []\OT1/ptm/m/n/10 All pair-wise and multi-group com-par-isons use non-
  []
 
-<../../04_results/plots/fig5_compute_time.png, id=146, 706.5597pt x 345.9324pt>
+[3]
+LaTeX Font Info:    Trying to load font information for OT1+pcr on input line 1
+39.
+ (C:\Users\User\AppData\Local\Programs\MiKTeX\tex/latex/psnfss\ot1pcr.fd
+File: ot1pcr.fd 2001/06/04 font definitions for OT1/pcr.
+)
+<../../04_results/plots/fig5_compute_time.png, id=157, 706.5597pt x 345.9324pt>
 
 File: ../../04_results/plots/fig5_compute_time.png Graphic file (type png)
 <use ../../04_results/plots/fig5_compute_time.png>
 Package pdftex.def Info: ../../04_results/plots/fig5_compute_time.png  used on 
-input line 156.
+input line 168.
 (pdftex.def)             Requested size: 252.0pt x 123.37958pt.
-<../../04_results/plots/fig6_delay_by_drift_type.png, id=149, 706.3188pt x 345.
+
+[4 <../../04_results/plots/fig5_compute_time.png>]
+<../../04_results/plots/fig6_delay_by_drift_type.png, id=168, 706.3188pt x 345.
 4506pt>
 File: ../../04_results/plots/fig6_delay_by_drift_type.png Graphic file (type pn
 g)
 <use ../../04_results/plots/fig6_delay_by_drift_type.png>
 Package pdftex.def Info: ../../04_results/plots/fig6_delay_by_drift_type.png  u
-sed on input line 169.
+sed on input line 181.
 (pdftex.def)             Requested size: 252.0pt x 123.24991pt.
-[3 <../../04_results/plots/fig5_compute_time.png> <../../04_results/plots/fig6_
-delay_by_drift_type.png>]
-<../../04_results/plots/fig1_delay_heatmap.png, id=160, 1125.003pt x 367.3725pt
+<../../04_results/plots/fig1_delay_heatmap.png, id=170, 1125.003pt x 367.3725pt
 >
 File: ../../04_results/plots/fig1_delay_heatmap.png Graphic file (type png)
 <use ../../04_results/plots/fig1_delay_heatmap.png>
 Package pdftex.def Info: ../../04_results/plots/fig1_delay_heatmap.png  used on
- input line 206.
+ input line 218.
 (pdftex.def)             Requested size: 252.0pt x 82.29086pt.
-<../../04_results/plots/fig3_tradeoff_curves.png, id=161, 1137.7707pt x 367.131
+<../../04_results/plots/fig3_tradeoff_curves.png, id=171, 1137.7707pt x 367.131
 6pt>
 File: ../../04_results/plots/fig3_tradeoff_curves.png Graphic file (type png)
 <use ../../04_results/plots/fig3_tradeoff_curves.png>
 Package pdftex.def Info: ../../04_results/plots/fig3_tradeoff_curves.png  used 
-on input line 213.
+on input line 225.
 (pdftex.def)             Requested size: 252.0pt x 81.31258pt.
-<../../04_results/plots/fig8_model_robustness.png, id=163, 706.5597pt x 345.209
-7pt>
-File: ../../04_results/plots/fig8_model_robustness.png Graphic file (type png)
-<use ../../04_results/plots/fig8_model_robustness.png>
-Package pdftex.def Info: ../../04_results/plots/fig8_model_robustness.png  used
- on input line 241.
-(pdftex.def)             Requested size: 252.0pt x 123.12181pt.
- [4 <../../04_results/plots/fig1_delay_heatmap.png> <../../04_results/plots/fig
-3_tradeoff_curves.png> <../../04_results/plots/fig8_model_robustness.png>]
-Underfull \hbox (badness 10000) in paragraph at lines 270--271
+ [5 <../../04_results/plots/fig6_delay_by_drift_type.png> <../../04_results/plo
+ts/fig1_delay_heatmap.png> <../../04_results/plots/fig3_tradeoff_curves.png>]
+<../../04_results/plots/fig9_model_robustness_relative.png, id=188, 777.8661pt 
+x 381.3447pt>
+File: ../../04_results/plots/fig9_model_robustness_relative.png Graphic file (t
+ype png)
+<use ../../04_results/plots/fig9_model_robustness_relative.png>
+Package pdftex.def Info: ../../04_results/plots/fig9_model_robustness_relative.
+png  used on input line 253.
+(pdftex.def)             Requested size: 252.0pt x 123.53987pt.
+ [6 <../../04_results/plots/fig9_model_robustness_relative.png>]
+Underfull \hbox (badness 10000) in paragraph at lines 303--304
 []\OT1/ptm/m/n/10 This study fo-cuses ex-clu-sively on tab-u-lar binary-
  []
 
-[5] (main.bbl)
+[7] (main.bbl)
 
 ** Conference Paper **
 Before submitting the final camera ready copy, remember to:
@@ -528,7 +545,7 @@ Before submitting the final camera ready copy, remember to:
  uses only Type 1 fonts and that every step in the generation
  process uses the appropriate paper size.
 
-[6
+[8
 
 ] (main.aux)
  ***********
@@ -536,16 +553,16 @@ LaTeX2e <2025-11-01>
 L3 programming layer <2025-12-24>
  ***********
 Package rerunfilecheck Info: File `main.out' has not changed.
-(rerunfilecheck)             Checksum: 208A6AB4AFEF946EB0247FF6B1E01F46;3248.
+(rerunfilecheck)             Checksum: EF2EBA6357878A39C2A16A9C2C41A665;3419.
  ) 
 Here is how much of TeX's memory you used:
- 10675 strings out of 467871
- 168049 string characters out of 5418860
- 597269 words of memory out of 5000000
- 39381 multiletter control sequences out of 15000+600000
- 668477 words of font info for 119 fonts, out of 8000000 for 9000
+ 10747 strings out of 467871
+ 169170 string characters out of 5418860
+ 598417 words of memory out of 5000000
+ 39441 multiletter control sequences out of 15000+600000
+ 674490 words of font info for 136 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 75i,9n,79p,1776b,529s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 75i,11n,79p,2591b,444s stack positions out of 10000i,1000n,20000p,200000b,200000s
 <C:/Users/User/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/c
 mex10.pfb><C:/Users/User/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfo
 nts/cm/cmmi10.pfb><C:/Users/User/AppData/Local/Programs/MiKTeX/fonts/type1/publ
@@ -562,13 +579,14 @@ C:/Users/User/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy
 7.pfb><C:/Users/User/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/
 cm/cmsy8.pfb><C:/Users/User/AppData/Local/Programs/MiKTeX/fonts/type1/public/am
 sfonts/cm/cmsy9.pfb><C:/Users/User/AppData/Local/Programs/MiKTeX/fonts/type1/ur
-w/times/utmb8a.pfb><C:/Users/User/AppData/Local/Programs/MiKTeX/fonts/type1/urw
-/times/utmbi8a.pfb><C:/Users/User/AppData/Local/Programs/MiKTeX/fonts/type1/urw
-/times/utmr8a.pfb><C:/Users/User/AppData/Local/Programs/MiKTeX/fonts/type1/urw/
-times/utmri8a.pfb>
-Output written on main.pdf (6 pages, 1254215 bytes).
+w/courier/ucrr8a.pfb><C:/Users/User/AppData/Local/Programs/MiKTeX/fonts/type1/u
+rw/times/utmb8a.pfb><C:/Users/User/AppData/Local/Programs/MiKTeX/fonts/type1/ur
+w/times/utmbi8a.pfb><C:/Users/User/AppData/Local/Programs/MiKTeX/fonts/type1/ur
+w/times/utmr8a.pfb><C:/Users/User/AppData/Local/Programs/MiKTeX/fonts/type1/urw
+/times/utmri8a.pfb>
+Output written on main.pdf (8 pages, 1285876 bytes).
 PDF statistics:
- 280 PDF objects out of 1000 (max. 8388607)
- 51 named destinations out of 1000 (max. 500000)
- 202 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 305 PDF objects out of 1000 (max. 8388607)
+ 56 named destinations out of 1000 (max. 500000)
+ 210 words of extra memory for PDF output out of 10000 (max. 10000000)
 

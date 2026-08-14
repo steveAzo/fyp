@@ -8,7 +8,7 @@ The motivation for a controlled experimental approach, rather than observational
 
 The study is structured around two complementary experiments:
 
-**Primary experiment:** A full factorial design crossing three datasets, three drift detection methods, three drift patterns, five monitoring frequencies, four window sizes, and three reference memory configurations, producing 8,100 experimental configurations. Each configuration is replicated five times with different random seeds, resulting in 8,100 observations. This experiment addresses the core research question regarding how resource constraints affect drift detection effectiveness.
+**Primary experiment:** A full factorial design crossing three datasets, three drift detection methods, three drift patterns, five monitoring frequencies, four window sizes, and three reference memory configurations, producing 1,620 distinct experimental configurations. Each configuration is replicated five times with different random seeds, resulting in 8,100 total observations. This experiment addresses the core research question regarding how resource constraints affect drift detection effectiveness.
 
 **Model comparison experiment:** A supplementary factorial design holding constraints fixed at a single representative configuration and crossing three classifier models against all datasets, detectors, and drift types, producing 405 configurations. This experiment assesses whether the accuracy degradation findings from the primary experiment generalise across classifier types, addressing the concern that results may be model-dependent.
 
@@ -49,6 +49,8 @@ The feature **Tool wear [min]** was designated as the drift target. Cumulative t
 ### 3.2.4 Preprocessing and Reference-Stream Split
 
 Each dataset was partitioned into a **reference set** (60%) and a **stream** (40%) using stratified random splitting, preserving the class proportion in both halves. Stratification ensures that any difference in prediction performance between the reference period and stream period reflects drift-induced degradation rather than a pre-existing class imbalance arising from random chance in the split.
+
+**Justification of the split ratio.** No single split ratio is established as a convention in the concept drift detection literature; the field more often favours adaptive, variable-length windowing schemes (e.g., ADWIN) over a fixed reference/stream split, so there is no canonical value to defer to. The 60/40 ratio adopted here reflects a direct tradeoff: a larger reference set produces a more stable estimate of the pre-drift distribution, while a larger stream leaves sufficient room to observe detection delay across the widest constraint configurations tested (window sizes up to 1,000 samples). This tradeoff was tested empirically with a supplementary sensitivity analysis comparing 50/50, 60/40, and 70/30 splits (405 runs: 3 datasets × 3 detectors × 3 drift types × 5 repetitions per split, at a representative constraint setting of monitoring\_frequency = 100, window\_size = 500). The detector ranking established in Chapter 4 (Wasserstein and KS faster than PSI) is statistically significant at every split tested (Kruskal-Wallis p < 0.0001 at 50/50, 60/40, and 70/30 alike), and detection delay for KS and PSI does not differ significantly across split ratios (p = 0.60 and p = 0.78 respectively, Kruskal-Wallis). Wasserstein shows a small but statistically detectable sensitivity to split ratio (p = 0.004; mean delay 180.7 samples at 50/50, 153.6 at 60/40, 181.7 at 70/30), which does not alter any comparative conclusion in this thesis but is reported here for completeness rather than omitted.
 
 All numerical features were standardised using a StandardScaler fitted *exclusively on the reference set* and applied to both reference and stream using the learned parameters. This constraint replicates real-world deployment practice: at deployment time, only the training-period data distribution is available to parameterise preprocessing, and the incoming stream must be normalised using the same statistics. Fitting the scaler on stream data would constitute temporal leakage, inflating apparent comparability between distributions (Gemaque et al., 2020).
 
@@ -114,7 +116,7 @@ Sudden (abrupt) drift introduces an immediate, permanent shift to the feature di
 
 > x'_i = x_i + 2σ, for all i ≥ drift_start
 
-where σ is the standard deviation of the feature in the stream and 2σ is the shift magnitude. A magnitude of 2 standard deviations was selected as representing a shift that is detectable by statistical tests but not trivially obvious — large enough to test real detection capability while remaining within operationally realistic ranges.
+where σ is the standard deviation of the feature in the stream and 2σ is the shift magnitude. A magnitude of 2 standard deviations was selected as representing a shift that is detectable by statistical tests but not trivially obvious — large enough to test real detection capability while remaining within operationally realistic ranges. This magnitude and the standard-deviation-scaled construction follow the variance-based synthetic perturbation methodology used by Rabanser et al. (2019) in their widely-cited "Failing Loudly" dataset-shift benchmark, which established this class of shift as a standard tool for constructing controllable, detectable synthetic drift for evaluating detection methods.
 
 Sudden drift models scenarios such as sensor failure or replacement, abrupt changes in data pipeline configuration, or discontinuous population shifts arising from policy changes.
 
@@ -180,6 +182,8 @@ The following resource constraint dimensions were varied systematically in the p
 
 **Reference size** represents a memory constraint. In a typical deployment, the reference distribution is the training-time feature distribution, and retaining all training samples may be infeasible on memory-constrained devices. When reference size is limited, only the most recent `k` reference samples are retained, simulating a device that cannot store the full historical distribution. The unlimited condition represents the idealised baseline with no memory constraint. When reference size is constrained, the most recent reference samples are retained in preference to the oldest, reflecting a temporal recency bias appropriate to systems that expect slow background drift in the reference itself.
 
+**Justification of the tested ranges.** These ranges are grounded in the operational vocabulary of production ML monitoring rather than an arbitrary log-scale sweep. Industry monitoring guidance (Microsoft's Azure Machine Learning and Evidently AI's production monitoring documentation, among others) does not prescribe a single correct check interval; both frame the choice as a tradeoff between near-continuous and batch-style monitoring, driven by data volume and compute budget. The five monitoring-frequency levels tested span exactly this range: a frequency of 10 approximates near-continuous, streaming-style monitoring; a frequency of 1,000 approximates the coarse, periodic batch monitoring (daily or weekly jobs run over accumulated logs) common in cost-constrained deployments; the intermediate levels (50, 100, 500) interpolate between these two operating points. Window size and reference size are varied over a comparable range for the same underlying reason, so that the constraint grid characterises the full space from best-case to worst-case resourcing rather than a single assumed operating point.
+
 ### 3.6.2 Dependent Variables — Detection Performance Metrics
 
 Five dependent variables were measured for each experimental configuration, capturing different facets of drift detection effectiveness and resource cost:
@@ -200,7 +204,7 @@ Five dependent variables were measured for each experimental configuration, capt
 
 ## 3.7 Experimental Protocol
 
-For each of the 8,100 experimental configurations in the primary experiment, the following protocol was executed:
+For each of the 1,620 experimental configurations in the primary experiment (each replicated five times, for 8,100 total runs), the following protocol was executed:
 
 1. **Load and preprocess the dataset** using the configuration's random seed to ensure reproducible splitting and shuffling.
 
@@ -256,13 +260,13 @@ For the continuous constraint dimensions (monitoring frequency, window size, ref
 
 ## 3.9 Implementation
 
-The experimental framework was implemented in Python 3.10. The primary dependencies were: NumPy and pandas for data manipulation, scikit-learn for model training and preprocessing (Random Forest, Logistic Regression, StandardScaler, LabelEncoder), LightGBM for the gradient boosting classifier, SciPy for statistical tests (Kolmogorov-Smirnov, Wasserstein distance, Mann-Whitney U, Kruskal-Wallis, Spearman correlation), and tqdm for progress monitoring during batch execution.
+The experimental framework was implemented in Python 3.13.5. The primary dependencies were: NumPy 2.4.4 and pandas 3.0.2 for data manipulation, scikit-learn 1.8.0 for model training and preprocessing (Random Forest, Logistic Regression, StandardScaler, LabelEncoder, train/test splitting), LightGBM 4.6.0 for the gradient boosting classifier, SciPy 1.17.1 for statistical tests (Kolmogorov-Smirnov, Wasserstein distance, Mann-Whitney U, Kruskal-Wallis, Spearman correlation), matplotlib 3.10.8 and seaborn 0.13.2 for the figures in Chapter 4, and tqdm for progress monitoring during batch execution.
 
 The codebase is organised into seven modules: data loading and preprocessing (`data/`), model training (`models/`), drift simulation (`simulators/`), drift detection (`detectors/`), experiment orchestration (`experiments/`), metric computation (`evaluation/`), and statistical analysis (`evaluation/significance.py`). Each module exposes a clear interface and is unit-tested against a known-outcome smoke test to verify end-to-end correctness before full batch execution.
 
-Experiments were executed in batch mode using an incremental CSV-writing strategy: each completed experiment is written to disk immediately upon completion, so that a hardware or software failure does not result in loss of previously computed results. A resume mechanism detects previously completed experiment keys on startup and skips them, enabling interrupted runs to continue from the point of failure.
+Experiments were executed in batch mode using an incremental CSV-writing strategy: each completed experiment is written to disk immediately upon completion, so that a hardware or software failure does not result in loss of previously computed results. A resume mechanism detects previously completed experiment keys on startup and skips them, enabling interrupted runs to continue from the point of failure. Model fitting used scikit-learn's and LightGBM's built-in multi-threading (`n_jobs=-1`); the detection procedure and the sequencing of configurations across the grid ran single-threaded and sequentially, with no distributed or multi-process execution.
 
-All experiments were conducted on a Windows 11 laptop with a standard Intel CPU, without GPU acceleration or cloud resources. The full primary experiment (8,100 configurations × 5 repetitions = 8,100 total runs, given repetitions are folded into the config count) required approximately six hours of wall-clock time. The model comparison experiment (405 configurations) required approximately 25 minutes. These runtimes confirm that the experimental framework is executable within the resource constraints that characterise the deployment scenarios under investigation.
+All experiments were conducted on a single consumer laptop: an Intel Core i3-1125G4 (11th generation, 4 physical cores, 8 logical threads, 2.00 GHz base clock), 4 GB RAM, running Windows 11 Home, without GPU acceleration or cloud resources. This is deliberately modest hardware relative to typical research compute, which is itself consistent with the resource-constrained framing of this thesis. Total wall-clock time for the original runs was not logged; a reproducible benchmark on the same machine, timing a random sample of configurations from each grid and extrapolating linearly, gives approximately 2.2 hours for the full primary experiment (1,620 configurations × 5 repetitions = 8,100 total runs) and approximately 4–5 minutes for the model comparison experiment (81 configurations × 5 repetitions = 405 total runs). These figures confirm that the experimental framework is executable within a resource budget consistent with the deployment scenarios under investigation, even on hardware substantially below typical research-cluster specifications.
 
 ---
 
@@ -291,6 +295,8 @@ Massey, F. J. (1951). The Kolmogorov-Smirnov test for goodness of fit. *Journal 
 Matzka, S. (2020). Explainable artificial intelligence for predictive maintenance applications. *2020 Third International Conference on Artificial Intelligence for Industries*.
 
 Preuveneers, D., Tsingenopoulos, I., & Joosen, W. (2020). Resource usage and performance trade-offs for machine learning models in smart environments. *Sensors*, 20(4), 1176.
+
+Rabanser, S., Günnemann, S., & Lipton, Z. (2019). Failing loudly: An empirical study of methods for detecting dataset shift. *Advances in Neural Information Processing Systems*, 32, 1394–1406.
 
 Spearman, C. (1904). The proof and measurement of association between two things. *The American Journal of Psychology*, 15(1), 72–101.
 

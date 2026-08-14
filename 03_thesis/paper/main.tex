@@ -12,17 +12,15 @@
 \title{When Configuration Matters More Than Algorithm: An Empirical Evaluation of Lightweight Drift Detectors Under Resource Constraints}
 
 \author{
-\IEEEauthorblockN{Stephen Kwaku Azongo}
-\IEEEauthorblockA{Department of Computer Science\\ University of Ghana\\ skazongo@st.ug.edu.gh}
-\and 
-\IEEEauthorblockN{Kofi Adu Sarpong}
-\IEEEauthorblockA{Department of Computer Science\\ University of Ghana\\ ksadu-manu@ug.edu.gh}
+\IEEEauthorblockN{Stephen Kwaku Azongo\textsuperscript{1}, Livingston Seble\textsuperscript{1}, Alex Teye Ametepey\textsuperscript{1}, Kofi Sarpong Adu-Manu\textsuperscript{1}, Sandro Amofa\textsuperscript{2}}
+\IEEEauthorblockA{\textsuperscript{1}Department of Computer Science, University of Ghana}
+\IEEEauthorblockA{\textsuperscript{2}Department of Computer Science, University of Cape Coast}
 }
 
 \maketitle
 
 \begin{abstract}
-Concept drift (the change over time in the joint distribution $P(X, y)$ of data and labels) is a fundamental challenge for machine learning systems deployed in dynamic environments. While numerous drift detection algorithms have been proposed and benchmarked, existing evaluations hold resource conditions constant, obscuring a practical question of primary importance: when monitoring systems operate under constraints on monitoring frequency, detection window size, and reference window size, which constraints matter most? This paper presents a systematic empirical evaluation of three lightweight, distribution-based drift detectors, namely the Kolmogorov-Smirnov (KS) test, the Population Stability Index (PSI), and the Wasserstein distance, across 8,100 experimental configurations spanning three real-world tabular datasets, three drift types (sudden, gradual, recurring), and a full factorial grid of resource constraint parameters. Non-parametric statistical testing (Kruskal-Wallis, Mann-Whitney U, Bonferroni correction) with effect size estimation (rank-biserial $r$, Spearman's $\rho$) establishes three principal findings: (1) constraint configuration produces a 37-fold range in detection delay, dwarfing the between-detector performance gap; (2) gradual drift is substantially harder to detect than sudden or recurring drift ($r \approx 0.30$, medium effect); and (3) Random Forest is significantly more robust to drift-induced degradation than LightGBM ($r = 0.383$) or Logistic Regression ($r = 0.185$). The findings yield a priority hierarchy for deployment decisions: monitoring regime configuration first, drift type awareness second, algorithm and model selection third.
+Concept drift (the change over time in the joint distribution $P(X, y)$ of data and labels) is a fundamental challenge for machine learning systems deployed in dynamic environments. While numerous drift detection algorithms have been proposed and benchmarked, existing evaluations hold resource conditions constant, obscuring a practical question of primary importance: when monitoring systems operate under constraints on monitoring frequency, detection window size, and reference window size, which constraints matter most? This paper presents a systematic empirical evaluation of three lightweight, distribution-based drift detectors, namely the Kolmogorov-Smirnov (KS) test, the Population Stability Index (PSI), and the Wasserstein distance, across 8,100 experimental runs spanning three real-world tabular datasets, three drift types (sudden, gradual, recurring), and a full factorial grid of resource constraint parameters. Non-parametric statistical testing (Kruskal-Wallis, Mann-Whitney U, Bonferroni correction) with effect size estimation (rank-biserial $r$, Spearman's $\rho$) establishes three principal findings: (1) constraint configuration produces a 37-fold range in detection delay, dwarfing the between-detector performance gap; (2) gradual drift is substantially harder to detect than sudden or recurring drift ($r \approx 0.30$, medium effect); and (3) Random Forest is significantly more robust to drift-induced accuracy degradation than LightGBM ($r = 0.383$) or Logistic Regression ($r = 0.185$), an advantage that holds across a range of hyperparameter settings but narrows under imbalance-aware metrics such as AUC. The findings yield a priority hierarchy for deployment decisions: monitoring regime configuration first, drift type awareness second, algorithm and model selection third.
 \end{abstract}
 
 \begin{IEEEkeywords}
@@ -40,7 +38,7 @@ However, a consequential gap persists: existing benchmarks evaluate detectors un
 This paper addresses that gap through a systematic, constraint-aware empirical evaluation. Our contributions are:
 
 \begin{enumerate}
-\item \textbf{A constraint-performance surface} for three lightweight distribution-based detectors across 8,100 configurations: the first study to treat monitoring frequency, window size, and reference size as systematic experimental variables.
+\item \textbf{A constraint-performance surface} for three lightweight distribution-based detectors across 8,100 experimental runs (1,620 distinct configurations $\times$ 5 repetitions): the first study to treat monitoring frequency, window size, and reference size as systematic experimental variables.
 \item \textbf{A quantitative ranking} of constraint parameters by their effect on detection delay and missed detection rate, enabling evidence-based deployment design.
 \item \textbf{A model robustness comparison} across three ML architectures (Random Forest, Logistic Regression, LightGBM) under controlled drift, establishing which model degrades most gracefully when distributional conditions change.
 \end{enumerate}
@@ -82,35 +80,37 @@ All categorical features are one-hot encoded; continuous features are standardis
 
 \subsection{Drift Simulation}
 
-Each dataset is split into a reference period (first 60\% of instances) and a monitoring period (remaining 40\%). Drift is injected into the monitoring period using three temporal patterns:
+Each dataset is split into a reference period (first 60\% of instances) and a stream period (remaining 40\%). This ratio is not a convention established elsewhere in the drift detection literature; a review of window-based concept drift studies found that the field favours adaptive, variable-length windowing schemes (e.g., ADWIN) over a single fixed split ratio, so no canonical value exists to adopt. The 60/40 choice instead reflects a direct methodological tradeoff: a larger reference period gives a more stable estimate of the pre-drift distribution, while a larger stream period leaves more room to observe detection delay across the widest constraint configurations tested (window sizes up to 1,000 samples). This tradeoff was tested directly with a supplementary sensitivity analysis at 50/50 and 70/30 splits ($n=405$ runs, 3 datasets $\times$ 3 detectors $\times$ 3 drift types $\times$ 5 repetitions per split, at a representative constraint setting of monitoring\_frequency $=100$, window\_size $=500$). The detector ranking established in Section~IV-A is significant at every split tested (Kruskal-Wallis $p<0.0001$ at 50/50, 60/40, and 70/30 alike), and detection delay for KS and PSI does not differ significantly across split ratios ($p=0.60$ and $p=0.78$ respectively). Wasserstein shows a small but statistically detectable sensitivity to split ratio ($p=0.004$; mean delay 180.7 at 50/50, 153.6 at 60/40, 181.7 at 70/30), which does not change any comparative conclusion in this paper but is noted here for completeness. Drift is injected into a single designated feature per dataset (AGE for Credit Default, Monthly Charges for Telco Churn, Tool wear for Predictive Maintenance), chosen as the feature most likely to exhibit natural distributional shift in a deployed system. This univariate injection design isolates each detector's sensitivity to a single-feature shift from the added complexity of multivariate drift. In all three drift types, injection begins at 50\% of the stream length, and the shift magnitude is expressed in units of the feature's own standard deviation $\sigma$ to keep magnitudes comparable across datasets with different natural scales. A magnitude of $2\sigma$ was chosen following the variance-based synthetic perturbation methodology of Rabanser et al.~\cite{rabanser2019}, whose ``Failing Loudly'' benchmark established this class of standard-deviation-scaled shift as a standard tool for constructing detectable, controllable synthetic drift in dataset-shift detection studies:
 
 \begin{itemize}
-\item \textbf{Sudden drift:} An instantaneous shift in the feature distribution at a precise injection point, implemented by scaling selected features by a factor of 1.5 and shifting the mean by 2 standard deviations.
-\item \textbf{Gradual drift:} A linear transition from the original distribution to the shifted distribution over 20\% of the monitoring period, implemented through linear interpolation of the transformation magnitude.
-\item \textbf{Recurring drift:} An initial sudden shift followed by a reversion to the original distribution and a second shift at a later point, simulating seasonal or cyclical concept re-emergence.
+\item \textbf{Sudden drift:} An instantaneous, permanent additive shift applied from the injection point onward: $x_i' = x_i + 2\sigma$ for all $i$ at or after the injection point.
+\item \textbf{Gradual drift:} The shift ramps linearly from 0 to $2\sigma$ over a fixed transition window of 500 samples following the injection point, then remains constant at $2\sigma$ for the rest of the stream.
+\item \textbf{Recurring drift:} The shift alternates on and off in fixed cycles of 200 samples each ($2\sigma$ for 200 samples, 0 for the next 200, repeating), simulating seasonal or periodic concept re-emergence.
 \end{itemize}
 
 \subsection{Drift Detectors}
 
-Three lightweight, label-free, distribution-based detectors are implemented:
+Three lightweight, label-free, distribution-based detectors are implemented, each operating on the single drift-target feature per experimental run:
 
-\textbf{KS Test:} For each feature, the two-sample Kolmogorov-Smirnov statistic $D = \max_x |F_{ref}(x) - F_{curr}(x)|$ is computed. Drift is declared if any feature's p-value falls below $\alpha = 0.05$ after Bonferroni correction for the number of features tested.
+\textbf{KS Test:} The two-sample Kolmogorov-Smirnov statistic $D = \max_x |F_{ref}(x) - F_{curr}(x)|$ is computed. Drift is declared if the p-value falls below $\alpha = 0.05$.
 
-\textbf{PSI:} Features are discretised into 10 equal-frequency bins computed on the reference data. $PSI = \sum_i (O_i - E_i) \times \ln(O_i / E_i)$ is computed for each feature; drift is declared if any feature's PSI exceeds 0.25 (the standard threshold for major shift).
+\textbf{PSI:} The feature is discretised into 10 equal-frequency bins computed on the reference data, with the outermost bin edges extended to $\pm\infty$ so that out-of-range monitoring-period values remain binnable. $PSI = \sum_i (O_i - E_i) \times \ln(O_i / E_i)$ is computed; drift is declared if PSI exceeds 0.25 (the standard threshold for major shift).
 
-\textbf{Wasserstein Distance:} The first-order Wasserstein distance $W_1(P_{ref}, P_{curr})$ is computed for each feature as the area between sorted empirical CDFs. Drift is declared if any feature's Wasserstein distance exceeds a threshold $\delta$ calibrated to the 99th percentile of the null distribution estimated from the reference period via bootstrap resampling (500 bootstraps).
+\textbf{Wasserstein Distance:} The first-order Wasserstein distance $W_1(P_{ref}, P_{curr})$ is computed as the area between sorted empirical CDFs. Drift is declared if the distance exceeds a fixed threshold of 0.25, set once via preliminary analysis of the pre-drift noise floor on standardised data (pre-drift 99th percentile $\approx 0.24$) so as to keep the false-positive rate below 1\% while remaining sensitive to a 2$\sigma$ shift.
 
 \subsection{Constraint Grid}
 
 Three resource constraint parameters are varied in a full factorial design:
 
 \begin{itemize}
-\item \textbf{Monitoring frequency (F):} $\{10, 100, 1{,}000\}$ samples between successive detection checks
-\item \textbf{Detection window size (W):} $\{50, 200, 1{,}000\}$ samples used in each check
+\item \textbf{Monitoring frequency (F):} $\{10, 50, 100, 500, 1{,}000\}$ samples between successive detection checks
+\item \textbf{Detection window size (W):} $\{50, 100, 500, 1{,}000\}$ samples used in each check
 \item \textbf{Reference window size (R):} $\{100, 500, \text{unlimited (full reference period)}\}$
 \end{itemize}
 
-This yields $3 \times 3 \times 3 = 27$ constraint configurations per detector, per drift type, per dataset. Across 3 detectors $\times$ 3 drift types $\times$ 3 datasets, the full grid contains $3^6 = 8{,}100$ experimental runs (with 100 repetitions per configuration averaged).
+Crossed with 3 datasets, 3 detectors, and 3 drift types, this yields $3 \times 3 \times 3 \times 5 \times 4 \times 3 = 1{,}620$ distinct experimental configurations. Each configuration is replicated 5 times with independent random seeds, giving $1{,}620 \times 5 = 8{,}100$ total experimental runs.
+
+These ranges are grounded in the operational vocabulary of production ML monitoring rather than an arbitrary log-scale sweep. Industry monitoring guidance (e.g., Azure Machine Learning's and Evidently AI's production monitoring documentation) does not prescribe a single correct check interval; it instead frames the choice as a tradeoff between near-continuous and batch-style monitoring, driven by data volume and compute budget. The five monitoring-frequency levels tested span exactly this range: $F=10$ approximates near-continuous, streaming-style monitoring; $F=1{,}000$ approximates the coarse, periodic batch monitoring (e.g., daily or weekly jobs on accumulated logs) common in cost-constrained deployments; the intermediate levels (50, 100, 500) interpolate between these operating points. Window size and reference size are varied over a comparable range for the same reason, so that the grid characterises the full space from best-case to worst-case resourcing rather than a single assumed operating point.
 
 \subsection{Evaluation Metrics}
 
@@ -124,15 +124,27 @@ This yields $3 \times 3 \times 3 = 27$ constraint configurations per detector, p
 
 All pairwise and multi-group comparisons use non-parametric tests: the Kruskal-Wallis H-test for multi-group comparisons, Mann-Whitney U with Bonferroni correction for post-hoc pairwise tests. Effect sizes are reported as rank-biserial correlation $r$ (for pairwise tests) and Spearman's $\rho$ (for constraint-performance correlations). Significance threshold: $\alpha = 0.05$.
 
+\textbf{Statistical power.} Achieved sample sizes vary substantially by comparison family: detector and drift-type comparisons pool 2,645--2,700 observations per group; constraint correlations use all 8,045 detected runs; model-comparison pairs use 135 observations per group. Using Noether's (1987) large-sample formula for the Wilcoxon--Mann--Whitney test, the minimum detectable rank-biserial effect at 80\% power and $\alpha = 0.05$ is $r \approx 0.031$ for the detector and drift-type families and the constraint correlations, but $r \approx 0.139$ for the smaller model-comparison family. This bears directly on how the non-significant results should be read: the null finding for sudden-versus-recurring drift ($r = 0.012$) and for reference size ($\rho = 0.012$) fall well below their respective detection thresholds, supporting genuine equivalence rather than an underpowered non-result. The KS-versus-Wasserstein null ($r = -0.029$), however, sits close to its detection threshold and should be read as ``no detectable difference at this sample size'' rather than definitive proof of equivalence. The same applies to the LightGBM-versus-Logistic-Regression comparison under the absolute degradation metric ($r = -0.136$, against a threshold of 0.139), a result revisited in Section IV-D.
+
+\textbf{Correction across the full test family.} The Bonferroni correction described above is applied within each family of pairwise comparisons (e.g., the three detector pairs). As a further check on the family-wise error rate across the study as a whole, Benjamini--Hochberg false discovery rate correction was applied jointly to all twelve headline comparisons reported in this paper (three detector pairs, three drift-type pairs, three model pairs, three constraint correlations). Every comparison significant under within-family Bonferroni correction remained significant under this stricter, study-wide correction, and every non-significant comparison remained non-significant. None of the paper's conclusions depend on the choice between these two correction schemes.
+
 \subsection{Model Comparison}
 
-Three classification models are trained on the reference period and evaluated for performance degradation in the post-drift monitoring period: Random Forest (100 trees, max depth 10), Logistic Regression (L2 regularisation, $C=1.0$), and LightGBM (100 estimators, learning rate 0.1). Degradation is measured as the accuracy difference between reference-period and post-drift monitoring-period performance.
+Three classification models are trained on the reference period and evaluated for performance degradation in the post-drift monitoring period: Random Forest (100 trees, unlimited depth, scikit-learn defaults), Logistic Regression (L2 regularisation, $C=1.0$, scikit-learn defaults), and LightGBM (100 estimators, learning rate 0.1, LightGBM defaults). No hyperparameter tuning was performed; all three models use their library default settings aside from the number of estimators, so that the comparison reflects each algorithm's baseline inductive bias rather than a dataset-tuned configuration. Degradation is measured primarily as the relative accuracy change, $\Delta_{rel} = (Acc_{ref} - Acc_{post}) / Acc_{ref}$, which normalises for baseline accuracy differences across models so that a model with lower reference-period accuracy is not automatically credited with ``robustness'' simply for having less room to degrade. Absolute accuracy difference, $\Delta_{abs} = Acc_{ref} - Acc_{post}$, is reported as a secondary metric to capture the practical impact on prediction quality.
+
+No internal validation split was used when fitting the reference-period models, since hyperparameters were fixed in advance rather than tuned. As a validity check, a supplementary 80/20 split of the reference period was used to test for overfitting: Random Forest reaches 99.9--100\% in-sample accuracy but only 79--98\% held-out accuracy across the three datasets, a substantially larger train-validation gap than LightGBM or Logistic Regression show. This raises a natural question, whether Random Forest's drift-robustness advantage depends on this specific, unregularised configuration, which is addressed directly in Section~IV-D via a hyperparameter sensitivity check. Two further supplementary analyses are also reported there: a check of whether the model ranking is sensitive to the exact hyperparameter settings used, and a check of whether it is sensitive to the choice of degradation metric, using balanced accuracy and ROC-AUC in addition to raw accuracy to account for the class imbalance present in all three datasets. Both supplementary analyses use a smaller replication of the model-comparison design ($n=45$ observations per model: 3 datasets $\times$ 3 drift types $\times$ 5 repetitions), since detector choice does not affect model accuracy and is therefore held fixed rather than repeated.
+
+\subsection{Implementation Details}
+
+All experiments were implemented in Python 3.13.5, using scikit-learn 1.8.0 for the Random Forest and Logistic Regression classifiers and for train/test splitting, LightGBM 4.6.0 for the gradient boosting classifier, scipy 1.17.1 for the statistical tests (Kolmogorov-Smirnov, Kruskal-Wallis, Mann-Whitney U, Spearman correlation), pandas 3.0.2 and numpy 2.4.4 for data handling, and matplotlib 3.10.8 with seaborn 0.13.2 for the figures. Model fitting used scikit-learn's and LightGBM's built-in multi-threading (\texttt{n\_jobs=-1}); the detection procedure itself, and the sequencing of configurations across the experimental grid, ran single-threaded and sequentially, with no distributed or multi-process execution.
+
+Experiments were run on a single consumer laptop: an Intel Core i3-1125G4 (4 physical cores, 8 logical threads, 2.00 GHz base clock) with 4 GB RAM, running Windows 11 Home. This is deliberately modest hardware relative to typical research compute, consistent with the paper's resource-constrained framing. Total wall-clock time was not logged during the original run; a benchmark of a random 50-configuration sample from the full grid on the same machine gives approximately 0.98 seconds per run, extrapolating to approximately 2.2 hours for the complete 8,100-run grid. The reported computation-time metric (Table~\ref{tab:detectors}) measures only the detection procedure itself (CPU time consumed by the statistical test), and is therefore a property of the detector algorithms rather than of this specific hardware; the 2.2-hour figure includes model training and drift injection overhead in addition to detection, and is reported here only to establish the practical feasibility of the full study on ordinary hardware.
 
 \section{Results}
 
 \subsection{Detector Performance (RQ1)}
 
-Table~\ref{tab:detectors} summarises mean performance across all datasets, drift types, and constraint configurations. Wasserstein achieves the lowest missed detection rate and detection delay; PSI achieves the lowest computational cost. The omnibus Kruskal-Wallis test across all three detectors is significant ($H = 148.739$, $p < 0.001$), but this is driven entirely by PSI: PSI differs significantly from both KS ($r = 0.151$, $p < 0.001$) and Wasserstein ($r = -0.177$, $p < 0.001$), while KS and Wasserstein are statistically indistinguishable from each other ($p = 0.186$, Bonferroni-corrected, $r = -0.029$). Effect sizes across all significant pairs are small ($|r| \leq 0.18$), indicating modest absolute differences.
+Table~\ref{tab:detectors} summarises mean performance across all datasets, drift types, and constraint configurations. Wasserstein achieves the lowest missed detection rate and detection delay; PSI achieves the lowest computational cost. The omnibus Kruskal-Wallis test across all three detectors is significant ($H = 148.739$, $p < 0.001$), but this is driven entirely by PSI: PSI differs significantly from both KS ($r = 0.151$, $p < 0.001$) and Wasserstein ($r = -0.177$, $p < 0.001$), while KS and Wasserstein are statistically indistinguishable from each other ($p = 0.186$, Bonferroni-corrected, $r = -0.029$). Effect sizes across all significant pairs are small ($|r| \leq 0.18$), indicating modest absolute differences. The KS-Wasserstein null result sits close to the study's detection threshold for this sample size (minimum detectable $r \approx 0.031$ at 80\% power; Section~III-F), so it is best read as ``no detectable difference,'' not proof that the two are exactly equivalent.
 
 \begin{table}[htbp]
 \caption{Detector Performance (mean across all conditions)}
@@ -217,10 +229,10 @@ The combined effect of constraint configuration produces a 37-fold range in dete
 
 \subsection{Model Robustness Under Drift (RQ4)}
 
-Across the 405 model comparison experiments, Random Forest is significantly more robust to drift-induced accuracy degradation than either LightGBM or Logistic Regression (Table~\ref{tab:models}). The RF vs.\ LightGBM effect ($r = 0.383$) is medium by conventional benchmarks; the RF vs.\ LR effect ($r = 0.185$) is small but statistically reliable. LightGBM and Logistic Regression do not differ significantly from each other (Mann-Whitney $p = 0.160$, Bonferroni-corrected).
+Across the 405 model comparison experiments, Random Forest is significantly more robust to drift-induced accuracy degradation than either LightGBM or Logistic Regression under the relative-degradation metric (Table~\ref{tab:models}). The RF vs.\ LightGBM effect ($r = 0.383$) is medium by conventional benchmarks; the RF vs.\ LR effect ($r = 0.185$) is small but statistically reliable. Both effect sizes are numerically identical to those obtained under the absolute-degradation metric, indicating that Random Forest's advantage is not an artefact of baseline accuracy differences between models. Unlike the absolute metric, however, the relative metric also finds LightGBM significantly more robust than Logistic Regression ($r = -0.185$, $p = 0.025$, Bonferroni-corrected), a difference the absolute metric could not distinguish from chance ($p = 0.160$). Correcting for the baseline-accuracy confound therefore sharpens rather than changes the finding: it yields a complete, significant three-way ordering, Random Forest $>$ LightGBM $>$ Logistic Regression. This is consistent with the power analysis in Section~III-F: at $n=135$ per group, the minimum detectable effect at 80\% power is $r \approx 0.139$, and the absolute-metric LightGBM-vs-LR effect ($r = -0.136$) sat almost exactly on that boundary. This explains why it read as non-significant under the absolute metric despite the underlying difference being real enough to cross the threshold ($r = -0.185$) once the baseline-accuracy confound was removed.
 
 \begin{table}[htbp]
-\caption{Model Robustness to Drift-Induced Degradation}
+\caption{Model Robustness to Drift-Induced Degradation (relative-degradation metric)}
 \label{tab:models}
 \centering
 \begin{tabular}{lccc}
@@ -229,19 +241,40 @@ Comparison & $p$ (Bonf.) & $r$ & Effect \\
 \midrule
 RF vs.\ LightGBM  & $<0.001$ & $-0.383$ & Medium \\
 RF vs.\ LR        & 0.025    & $-0.185$ & Small \\
-LightGBM vs.\ LR  & 0.160    & $-0.136$ & Small \\
+LightGBM vs.\ LR  & 0.025    & $-0.185$ & Small \\
 \bottomrule
 \end{tabular}
 \end{table}
 
-The model comparison results are consistent with the hypothesis that gradient boosting's higher model complexity, which enables greater accuracy in stationary conditions, also creates greater sensitivity to distributional shift, because the model more precisely encodes the idiosyncratic features of the training distribution. Random Forest's bagging and feature randomisation provide ensemble diversity that moderates this sensitivity.
+The model comparison results are consistent with the hypothesis that gradient boosting's sequential, residual-fitting structure, which enables high accuracy in stationary conditions, also creates greater sensitivity to distributional shift, because each tree corrects the residual of the ensemble built so far rather than averaging independently over the training distribution. Random Forest's bagging and per-split feature randomisation decorrelate its constituent trees, so that a shift affecting one feature's split is not shared by the whole ensemble.
 
 \begin{figure}[htbp]
 \centering
-\includegraphics[width=\columnwidth]{../../04_results/plots/fig8_model_robustness.png}
-\caption{Mean accuracy degradation (baseline minus post-drift accuracy) by model, per dataset. Random Forest's advantage over LightGBM holds in direction across all three datasets. Logistic Regression's poor aggregate performance is driven almost entirely by Telco Churn, where it is the least robust model by a wide margin; on the other two datasets it is competitive with or better than both ensembles.}
+\includegraphics[width=\columnwidth]{../../04_results/plots/fig9_model_robustness_relative.png}
+\caption{Mean relative accuracy degradation ((baseline $-$ post-drift) / baseline) by model, per dataset. Random Forest's advantage over LightGBM holds in direction across all three datasets. Logistic Regression's poor aggregate performance is driven almost entirely by Telco Churn, where it is the least robust model by a wide margin; on the other two datasets it is competitive with or better than both ensembles.}
 \label{fig:modelrobustness}
 \end{figure}
+
+\textbf{Hyperparameter sensitivity.} Random Forest's held-out validation diagnostic (Section~III-G) showed substantial overfitting at its default unlimited tree depth, raising the question of whether its robustness advantage depends on that specific configuration. This was tested directly by rerunning the drift-injection procedure with Random Forest at max\_depth $\in \{3, 5, 10, 20, \text{unlimited}\}$ and comparing each against LightGBM's established degradation ($n=45$ per group). Random Forest's advantage holds at every depth tested (all $p<0.05$, Bonferroni-corrected), and is, if anything, stronger under regularisation: mean accuracy degradation is 0.0033 at depth 3 and 0.0044 at depth 5, both markedly below the 0.0150 observed at unlimited depth, and well below LightGBM's 0.0218. A parallel check varying LightGBM's learning rate (0.05, 0.1, 0.2) found Random Forest (unlimited depth) significantly more robust than LightGBM at every rate tested (all $p<0.005$). The robustness advantage is therefore not an artefact of the specific hyperparameters used in the main experiment; it holds across the tested hyperparameter space for both models, and strengthens under regularisation rather than depending on the absence of it.
+
+\textbf{Robustness under imbalance-aware metrics.} All three datasets are class-imbalanced, and raw accuracy is dominated by majority-class performance. To test whether the accuracy-based ranking generalises, degradation was additionally measured using balanced accuracy (the mean of sensitivity and specificity) and ROC-AUC, computed on the same $n=45$ replication (Table~\ref{tab:modelmetrics}). The picture is more nuanced than the accuracy-based result alone suggests. Balanced accuracy improves post-drift for all three models (Random Forest $-0.036$, LightGBM $-0.013$, Logistic Regression $-0.057$; negative values indicate improvement), suggesting the injected drift shifts predictions toward better minority-class recall at some cost to majority-class accuracy, a trade-off raw accuracy does not capture. Under ROC-AUC, LightGBM again shows the largest degradation ($+0.028$), Random Forest an intermediate, significantly smaller degradation ($+0.017$, $p<0.001$ vs. LightGBM), and Logistic Regression the smallest change ($-0.006$), which is not statistically distinguishable from Random Forest at this sample size ($p=0.26$).
+
+\begin{table}[htbp]
+\caption{Model Degradation Across Metrics ($n=45$ per model)}
+\label{tab:modelmetrics}
+\centering
+\begin{tabular}{lccc}
+\toprule
+Metric & RF & LightGBM & LR \\
+\midrule
+Accuracy degradation           & 0.0150  & 0.0218  & 0.0265 \\
+Balanced accuracy degradation  & $-$0.0360 & $-$0.0130 & $-$0.0566 \\
+AUC degradation                & 0.0171  & 0.0282  & $-$0.0055 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Across all three metrics, LightGBM is consistently the least robust model. The comparison between Random Forest and Logistic Regression, however, is metric-dependent: Random Forest's advantage over Logistic Regression is clear and significant for raw and relative accuracy, but the two become statistically indistinguishable under AUC and balanced accuracy. This is consistent with the dataset-level pattern already established: Logistic Regression's poor aggregate accuracy is driven almost entirely by a single severe failure on Telco Churn, and that failure appears to weigh less heavily on rank-based and imbalance-corrected metrics than on raw accuracy. The choice of degradation metric should therefore match the deployment priority: where overall predictive accuracy is what matters operationally, Random Forest is the more robust choice; where minority-class detection is the priority, common in the exact domains these datasets represent (credit default, churn, machine failure), Logistic Regression's robustness is competitive with Random Forest's despite its markedly worse showing on raw accuracy.
 
 \section{Discussion}
 
@@ -253,7 +286,7 @@ Integrating the findings across all four research questions yields a priority hi
 
 \textbf{Second priority: drift type awareness.} Gradual drift is systematically and substantially harder to detect than sudden or recurring drift ($r \approx 0.30$, medium effect). A system calibrated and validated exclusively on sudden-change scenarios, as most benchmark studies are, may provide misleading performance guarantees for gradual drift, which is arguably more common in real deployment environments where populations shift slowly. Practitioners should explicitly test their monitoring configurations against gradual drift scenarios and consider lower detection thresholds or smaller window sizes if gradual drift is expected.
 
-\textbf{Third priority: algorithm and model selection.} After the monitoring regime and drift type considerations are addressed, detector choice and model choice represent relatively smaller sources of performance variation. Wasserstein distance offers the best detection capability at moderate computational cost; KS offers strong detection at higher compute; PSI offers acceptable detection at lowest compute. Random Forest is the recommended base model in non-stationary environments where retraining is costly.
+\textbf{Third priority: algorithm and model selection.} After the monitoring regime and drift type considerations are addressed, detector choice and model choice represent relatively smaller sources of performance variation. Wasserstein distance offers the best detection capability at moderate computational cost; KS offers strong detection at higher compute; PSI offers acceptable detection at lowest compute. Random Forest is the recommended base model in non-stationary environments where retraining is costly and overall accuracy is the operational priority; where minority-class detection matters most, its advantage over Logistic Regression narrows substantially (Section~IV-D).
 
 \subsection{The Reference Window Threshold}
 
@@ -275,7 +308,7 @@ This paper presents the first systematic constraint-aware evaluation of three li
 
 Gradual drift is systematically and substantially harder to detect than sudden or recurring drift across all detectors and constraint configurations, with a medium effect size ($r \approx 0.30$) that significantly exceeds the detector-comparison effects. The equivalence of sudden and recurring drift detection performance indicates that distribution-based detectors respond to concept recurrence with the same sensitivity as to novel sudden shifts.
 
-A reference window threshold of approximately 500 samples provides detection performance equivalent to an unlimited reference, supporting memory-efficient monitoring pipeline design. Random Forest shows the greatest robustness to drift-induced performance degradation among the three evaluated model architectures.
+A reference window threshold of approximately 500 samples provides detection performance equivalent to an unlimited reference, supporting memory-efficient monitoring pipeline design. Random Forest shows the greatest robustness to drift-induced accuracy degradation among the three evaluated model architectures, an advantage confirmed across a range of hyperparameter settings, though it narrows under imbalance-aware metrics where Logistic Regression becomes competitive.
 
 The practical guidance distilled from these findings is a ranked priority hierarchy: configure the monitoring regime first, account for drift type second, and select the detector and model third. Deployment decisions should be informed by constraint-aware evaluation rather than benchmark results obtained under idealised conditions that do not represent the resource environments of real production systems.
 
