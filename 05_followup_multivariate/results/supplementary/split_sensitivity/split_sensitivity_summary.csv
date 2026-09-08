@@ -1,0 +1,11 @@
+split,factor,H,p,epsilon_sq,n_detected
+50/50,detector,515.97,2.86e-109,0.2804,1841
+50/50,window_size,232.22,3.75e-51,0.1262,1841
+50/50,monitoring_interval,99.22,2.84e-22,0.0539,1841
+50/50,miss_rate_marginal_info,,,0.4168,
+50/50,miss_rate_joint_dep,,,0.3066,
+70/30,detector,420.86,9.44e-89,0.2504,1682
+70/30,window_size,208.63,4.96e-46,0.1241,1682
+70/30,monitoring_interval,122.57,2.43e-27,0.0729,1682
+70/30,miss_rate_marginal_info,,,0.4619,
+70/30,miss_rate_joint_dep,,,0.3457,

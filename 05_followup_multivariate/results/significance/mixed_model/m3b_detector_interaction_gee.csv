@@ -1,0 +1,21 @@
+term,coef,std_err,z_score,p_value,OR_or_mult,CI_lower,CI_upper,p_str,significant
+Intercept,-8.1706,1.0821,-7.551,4.3300239652354676e-14,0.0003,0.0,0.0024,<0.001,True
+"C(shift_cond, Treatment('marginal'))[T.dependency]",5.6813,1.0498,5.412,6.23275229953484e-08,293.331,37.48,2295.7088,<0.001,True
+"C(detector, Treatment('ks'))[T.c2st]",0.1128,1.2942,0.087,0.9305679919012436,1.1194,0.0886,14.1442,0.9306,False
+"C(detector, Treatment('ks'))[T.hdddm]",-1.143,1.2591,-0.908,0.364024461547252,0.3189,0.027,3.7619,0.3640,False
+"C(detector, Treatment('ks'))[T.mmd]",0.1128,1.2941,0.087,0.9305645422057844,1.1194,0.0886,14.1424,0.9306,False
+"C(detector, Treatment('ks'))[T.psi]",-0.6174,1.2689,-0.487,0.6265929007575328,0.5394,0.0449,6.4861,0.6266,False
+"C(detector, Treatment('ks'))[T.wasserstein]",-0.4277,1.2739,-0.336,0.7370850266946732,0.652,0.0537,7.9173,0.7371,False
+"C(win_cat, Treatment('50'))[T.500]",2.1462,0.445,4.823,1.4166752038866153e-06,8.5519,3.5749,20.458,<0.001,True
+"C(freq_cat, Treatment('10'))[T.100]",0.7218,0.1175,6.142,8.15973681212357e-10,2.0581,1.6347,2.5912,<0.001,True
+"C(freq_cat, Treatment('10'))[T.1000]",2.4968,0.1657,15.065,2.739260619214161e-51,12.1437,8.7757,16.8044,<0.001,True
+"C(ref_size_cat, Treatment('full'))[T.500]",-0.042,0.0533,-0.787,0.43103856031900334,0.9589,0.8638,1.0645,0.4310,False
+"C(dataset, Treatment('credit'))[T.maintenance]",0.9622,0.1562,6.162,7.197653258233347e-10,2.6176,1.9274,3.5549,<0.001,True
+"C(dataset, Treatment('credit'))[T.telco]",1.1707,0.1442,8.117,4.77193787355362e-16,3.2241,2.4302,4.2773,<0.001,True
+"C(drift_type_clean, Treatment('sudden'))[T.gradual]",-0.0575,0.1287,-0.447,0.6547473373258386,0.9441,0.7337,1.2149,0.6547,False
+"C(drift_type_clean, Treatment('sudden'))[T.recurring]",0.4388,0.1578,2.781,0.005417541415891526,1.5508,1.1383,2.1128,0.0054,True
+"C(shift_cond, Treatment('marginal'))[T.dependency]:C(detector, Treatment('ks'))[T.c2st]",0.1159,1.3453,0.086,0.9313593720618981,1.1229,0.0804,15.6836,0.9314,False
+"C(shift_cond, Treatment('marginal'))[T.dependency]:C(detector, Treatment('ks'))[T.hdddm]",0.8849,1.3652,0.648,0.5168635197636278,2.4227,0.1668,35.184,0.5169,False
+"C(shift_cond, Treatment('marginal'))[T.dependency]:C(detector, Treatment('ks'))[T.mmd]",-3.4279,1.383,-2.479,0.013190214788808765,0.0325,0.0022,0.4881,0.0132,True
+"C(shift_cond, Treatment('marginal'))[T.dependency]:C(detector, Treatment('ks'))[T.psi]",0.6174,1.3626,0.453,0.6504975999465499,1.854,0.1283,26.7905,0.6505,False
+"C(shift_cond, Treatment('marginal'))[T.dependency]:C(detector, Treatment('ks'))[T.wasserstein]",0.6101,1.3392,0.456,0.6486804003223599,1.8407,0.1334,25.4053,0.6487,False

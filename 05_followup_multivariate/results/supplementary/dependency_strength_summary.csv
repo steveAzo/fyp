@@ -1,0 +1,10 @@
+dataset,drift_type,pre_pearson,pre_spearman,post_pearson,post_spearman,delta_pearson,delta_spearman
+credit,gradual,0.052,-0.002,0.735,0.805,0.683,0.807
+credit,recurring,0.052,-0.002,0.402,0.404,0.349,0.406
+credit,sudden,0.052,-0.002,0.734,0.799,0.682,0.801
+maintenance,gradual,0.013,0.013,0.794,0.802,0.781,0.788
+maintenance,recurring,0.013,0.013,0.41,0.413,0.397,0.4
+maintenance,sudden,0.013,0.013,0.8,0.806,0.787,0.793
+telco,gradual,0.65,0.638,-0.653,-0.686,-1.303,-1.324
+telco,recurring,0.65,0.638,-0.079,-0.111,-0.729,-0.748
+telco,sudden,0.65,0.638,-0.633,-0.679,-1.283,-1.316

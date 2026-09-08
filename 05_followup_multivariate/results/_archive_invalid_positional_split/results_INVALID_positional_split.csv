@@ -1,0 +1,145 @@
+dataset,detector,drift_type,drift_feature,model,monitoring_frequency,window_size,reference_size,repetition,baseline_accuracy,post_drift_accuracy,accuracy_degradation,first_detection_idx,detection_delay_samples,detection_delay_windows,missed_detection,total_computation_ms
+credit,ks,sudden,AGE+BILL_AMT1,random_forest,100,100,500,0,0.8309166666666666,0.8303333333333334,0.0005833333333332691,6000,0,0,False,228.6893999967724
+credit,ks,sudden,AGE+BILL_AMT1,random_forest,100,100,500,1,0.8309166666666666,0.8303333333333334,0.0005833333333332691,6000,0,0,False,243.36700000055134
+credit,ks,sudden,AGE+BILL_AMT1,random_forest,100,100,-1,0,0.8309166666666666,0.8303333333333334,0.0005833333333332691,6000,0,0,False,1676.4663000050932
+credit,ks,sudden,AGE+BILL_AMT1,random_forest,100,100,-1,1,0.8309166666666666,0.8303333333333334,0.0005833333333332691,6000,0,0,False,1644.4167999997735
+credit,ks,gradual,AGE+BILL_AMT1,random_forest,100,100,500,0,0.8309166666666666,0.8308333333333333,8.333333333332416e-05,6000,0,0,False,690.2212000023574
+credit,ks,gradual,AGE+BILL_AMT1,random_forest,100,100,500,1,0.8309166666666666,0.8308333333333333,8.333333333332416e-05,6000,0,0,False,380.4227000065148
+credit,ks,gradual,AGE+BILL_AMT1,random_forest,100,100,-1,0,0.8309166666666666,0.8308333333333333,8.333333333332416e-05,6000,0,0,False,867.827099993825
+credit,ks,gradual,AGE+BILL_AMT1,random_forest,100,100,-1,1,0.8309166666666666,0.8308333333333333,8.333333333332416e-05,6000,0,0,False,752.361099999398
+credit,ks,recurring,AGE+BILL_AMT1,random_forest,100,100,500,0,0.8309166666666666,0.8285,0.0024166666666666226,6000,0,0,False,259.2833999944851
+credit,ks,recurring,AGE+BILL_AMT1,random_forest,100,100,500,1,0.8309166666666666,0.8285,0.0024166666666666226,6000,0,0,False,220.95310000143945
+credit,ks,recurring,AGE+BILL_AMT1,random_forest,100,100,-1,0,0.8309166666666666,0.8285,0.0024166666666666226,6000,0,0,False,927.0654000015929
+credit,ks,recurring,AGE+BILL_AMT1,random_forest,100,100,-1,1,0.8309166666666666,0.8285,0.0024166666666666226,6000,0,0,False,750.610999988392
+credit,psi,sudden,AGE+BILL_AMT1,random_forest,100,100,500,0,0.8309166666666666,0.8303333333333334,0.0005833333333332691,6000,0,0,False,116.71289999783039
+credit,psi,sudden,AGE+BILL_AMT1,random_forest,100,100,500,1,0.8309166666666666,0.8303333333333334,0.0005833333333332691,6000,0,0,False,104.70100000035018
+credit,psi,sudden,AGE+BILL_AMT1,random_forest,100,100,-1,0,0.8309166666666666,0.8303333333333334,0.0005833333333332691,6000,0,0,False,325.71830000076443
+credit,psi,sudden,AGE+BILL_AMT1,random_forest,100,100,-1,1,0.8309166666666666,0.8303333333333334,0.0005833333333332691,6000,0,0,False,1201.2323000039905
+credit,psi,gradual,AGE+BILL_AMT1,random_forest,100,100,500,0,0.8309166666666666,0.8308333333333333,8.333333333332416e-05,6000,0,0,False,164.66649999376386
+credit,psi,gradual,AGE+BILL_AMT1,random_forest,100,100,500,1,0.8309166666666666,0.8308333333333333,8.333333333332416e-05,6000,0,0,False,144.84630000125617
+credit,psi,gradual,AGE+BILL_AMT1,random_forest,100,100,-1,0,0.8309166666666666,0.8308333333333333,8.333333333332416e-05,6000,0,0,False,417.82140000443906
+credit,psi,gradual,AGE+BILL_AMT1,random_forest,100,100,-1,1,0.8309166666666666,0.8308333333333333,8.333333333332416e-05,6000,0,0,False,839.616900014691
+credit,psi,recurring,AGE+BILL_AMT1,random_forest,100,100,500,0,0.8309166666666666,0.8285,0.0024166666666666226,6000,0,0,False,81.17140000499785
+credit,psi,recurring,AGE+BILL_AMT1,random_forest,100,100,500,1,0.8309166666666666,0.8285,0.0024166666666666226,6000,0,0,False,170.37730000074953
+credit,psi,recurring,AGE+BILL_AMT1,random_forest,100,100,-1,0,0.8309166666666666,0.8285,0.0024166666666666226,6000,0,0,False,428.156000001356
+credit,psi,recurring,AGE+BILL_AMT1,random_forest,100,100,-1,1,0.8309166666666666,0.8285,0.0024166666666666226,6000,0,0,False,396.60089999902993
+credit,wasserstein,sudden,AGE+BILL_AMT1,random_forest,100,100,500,0,0.8309166666666666,0.8303333333333334,0.0005833333333332691,6000,0,0,False,79.79170000459999
+credit,wasserstein,sudden,AGE+BILL_AMT1,random_forest,100,100,500,1,0.8309166666666666,0.8303333333333334,0.0005833333333332691,6000,0,0,False,37.13949999585748
+credit,wasserstein,sudden,AGE+BILL_AMT1,random_forest,100,100,-1,0,0.8309166666666666,0.8303333333333334,0.0005833333333332691,6000,0,0,False,1194.6767999920994
+credit,wasserstein,sudden,AGE+BILL_AMT1,random_forest,100,100,-1,1,0.8309166666666666,0.8303333333333334,0.0005833333333332691,6000,0,0,False,1092.8587000053376
+credit,wasserstein,gradual,AGE+BILL_AMT1,random_forest,100,100,500,0,0.8309166666666666,0.8308333333333333,8.333333333332416e-05,6000,0,0,False,38.30020000040531
+credit,wasserstein,gradual,AGE+BILL_AMT1,random_forest,100,100,500,1,0.8309166666666666,0.8308333333333333,8.333333333332416e-05,6000,0,0,False,67.26750000286847
+credit,wasserstein,gradual,AGE+BILL_AMT1,random_forest,100,100,-1,0,0.8309166666666666,0.8308333333333333,8.333333333332416e-05,6000,0,0,False,908.8330999929458
+credit,wasserstein,gradual,AGE+BILL_AMT1,random_forest,100,100,-1,1,0.8309166666666666,0.8308333333333333,8.333333333332416e-05,6000,0,0,False,1384.577999992296
+credit,wasserstein,recurring,AGE+BILL_AMT1,random_forest,100,100,500,0,0.8309166666666666,0.8285,0.0024166666666666226,6000,0,0,False,181.06259999610484
+credit,wasserstein,recurring,AGE+BILL_AMT1,random_forest,100,100,500,1,0.8309166666666666,0.8285,0.0024166666666666226,6000,0,0,False,152.09320000186563
+credit,wasserstein,recurring,AGE+BILL_AMT1,random_forest,100,100,-1,0,0.8309166666666666,0.8285,0.0024166666666666226,6000,0,0,False,999.7191999936476
+credit,wasserstein,recurring,AGE+BILL_AMT1,random_forest,100,100,-1,1,0.8309166666666666,0.8285,0.0024166666666666226,6000,0,0,False,1117.9084000019357
+credit,mmd,sudden,AGE+BILL_AMT1,random_forest,100,100,500,0,0.8309166666666666,0.8303333333333334,0.0005833333333332691,6000,0,0,False,6466.178999996744
+credit,mmd,sudden,AGE+BILL_AMT1,random_forest,100,100,500,1,0.8309166666666666,0.8303333333333334,0.0005833333333332691,6000,0,0,False,15021.154299997725
+credit,mmd,sudden,AGE+BILL_AMT1,random_forest,100,100,-1,0,0.8309166666666666,0.8303333333333334,0.0005833333333332691,6000,0,0,False,8680.156900012866
+credit,mmd,sudden,AGE+BILL_AMT1,random_forest,100,100,-1,1,0.8309166666666666,0.8303333333333334,0.0005833333333332691,6000,0,0,False,7048.958499998786
+credit,mmd,gradual,AGE+BILL_AMT1,random_forest,100,100,500,0,0.8309166666666666,0.8308333333333333,8.333333333332416e-05,6000,0,0,False,10472.139200000092
+credit,mmd,gradual,AGE+BILL_AMT1,random_forest,100,100,500,1,0.8309166666666666,0.8308333333333333,8.333333333332416e-05,6000,0,0,False,8482.932400009595
+credit,mmd,gradual,AGE+BILL_AMT1,random_forest,100,100,-1,0,0.8309166666666666,0.8308333333333333,8.333333333332416e-05,6000,0,0,False,6597.719999995083
+credit,mmd,gradual,AGE+BILL_AMT1,random_forest,100,100,-1,1,0.8309166666666666,0.8308333333333333,8.333333333332416e-05,6000,0,0,False,7846.68589999713
+credit,mmd,recurring,AGE+BILL_AMT1,random_forest,100,100,500,0,0.8309166666666666,0.8285,0.0024166666666666226,6000,0,0,False,14749.299499999732
+credit,mmd,recurring,AGE+BILL_AMT1,random_forest,100,100,500,1,0.8309166666666666,0.8285,0.0024166666666666226,6000,0,0,False,9187.38949999772
+credit,mmd,recurring,AGE+BILL_AMT1,random_forest,100,100,-1,0,0.8309166666666666,0.8285,0.0024166666666666226,6000,0,0,False,9433.93209999986
+credit,mmd,recurring,AGE+BILL_AMT1,random_forest,100,100,-1,1,0.8309166666666666,0.8285,0.0024166666666666226,6000,0,0,False,6631.617799998261
+credit,c2st,sudden,AGE+BILL_AMT1,random_forest,100,100,500,0,0.8309166666666666,0.8303333333333334,0.0005833333333332691,6000,0,0,False,1227.3612999962643
+credit,c2st,sudden,AGE+BILL_AMT1,random_forest,100,100,500,1,0.8309166666666666,0.8303333333333334,0.0005833333333332691,6000,0,0,False,762.2765999967232
+credit,c2st,sudden,AGE+BILL_AMT1,random_forest,100,100,-1,0,0.8309166666666666,0.8303333333333334,0.0005833333333332691,6000,0,0,False,969.9366000024602
+credit,c2st,sudden,AGE+BILL_AMT1,random_forest,100,100,-1,1,0.8309166666666666,0.8303333333333334,0.0005833333333332691,6000,0,0,False,888.9626999981701
+credit,c2st,gradual,AGE+BILL_AMT1,random_forest,100,100,500,0,0.8309166666666666,0.8308333333333333,8.333333333332416e-05,6000,0,0,False,904.5393000012264
+credit,c2st,gradual,AGE+BILL_AMT1,random_forest,100,100,500,1,0.8309166666666666,0.8308333333333333,8.333333333332416e-05,6000,0,0,False,1258.2178999949247
+credit,c2st,gradual,AGE+BILL_AMT1,random_forest,100,100,-1,0,0.8309166666666666,0.8308333333333333,8.333333333332416e-05,6000,0,0,False,921.9002999868244
+credit,c2st,gradual,AGE+BILL_AMT1,random_forest,100,100,-1,1,0.8309166666666666,0.8308333333333333,8.333333333332416e-05,6000,0,0,False,2025.4893999965861
+credit,c2st,recurring,AGE+BILL_AMT1,random_forest,100,100,500,0,0.8309166666666666,0.8285,0.0024166666666666226,6000,0,0,False,1192.0951999938115
+credit,c2st,recurring,AGE+BILL_AMT1,random_forest,100,100,500,1,0.8309166666666666,0.8285,0.0024166666666666226,6000,0,0,False,1402.5573999881744
+credit,c2st,recurring,AGE+BILL_AMT1,random_forest,100,100,-1,0,0.8309166666666666,0.8285,0.0024166666666666226,6000,0,0,False,1093.4641999937594
+credit,c2st,recurring,AGE+BILL_AMT1,random_forest,100,100,-1,1,0.8309166666666666,0.8285,0.0024166666666666226,6000,0,0,False,999.1663999939337
+credit,hdddm,sudden,AGE+BILL_AMT1,random_forest,100,100,500,0,0.8309166666666666,0.8303333333333334,0.0005833333333332691,6000,0,0,False,86.26739999838173
+credit,hdddm,sudden,AGE+BILL_AMT1,random_forest,100,100,500,1,0.8309166666666666,0.8303333333333334,0.0005833333333332691,6000,0,0,False,37.09790000598878
+credit,hdddm,sudden,AGE+BILL_AMT1,random_forest,100,100,-1,0,0.8309166666666666,0.8303333333333334,0.0005833333333332691,6000,0,0,False,70.57750000059605
+credit,hdddm,sudden,AGE+BILL_AMT1,random_forest,100,100,-1,1,0.8309166666666666,0.8303333333333334,0.0005833333333332691,6000,0,0,False,360.8151999954134
+credit,hdddm,gradual,AGE+BILL_AMT1,random_forest,100,100,500,0,0.8309166666666666,0.8308333333333333,8.333333333332416e-05,6000,0,0,False,44.140600002370775
+credit,hdddm,gradual,AGE+BILL_AMT1,random_forest,100,100,500,1,0.8309166666666666,0.8308333333333333,8.333333333332416e-05,6000,0,0,False,55.423399994149804
+credit,hdddm,gradual,AGE+BILL_AMT1,random_forest,100,100,-1,0,0.8309166666666666,0.8308333333333333,8.333333333332416e-05,6000,0,0,False,84.09080001432449
+credit,hdddm,gradual,AGE+BILL_AMT1,random_forest,100,100,-1,1,0.8309166666666666,0.8308333333333333,8.333333333332416e-05,6000,0,0,False,101.8307999977842
+credit,hdddm,recurring,AGE+BILL_AMT1,random_forest,100,100,500,0,0.8309166666666666,0.8285,0.0024166666666666226,6000,0,0,False,33.011399996466935
+credit,hdddm,recurring,AGE+BILL_AMT1,random_forest,100,100,500,1,0.8309166666666666,0.8285,0.0024166666666666226,6000,0,0,False,31.989500004798174
+credit,hdddm,recurring,AGE+BILL_AMT1,random_forest,100,100,-1,0,0.8309166666666666,0.8285,0.0024166666666666226,6000,0,0,False,76.48009998816997
+credit,hdddm,recurring,AGE+BILL_AMT1,random_forest,100,100,-1,1,0.8309166666666666,0.8285,0.0024166666666666226,6000,0,0,False,102.05350000597537
+maintenance,ks,sudden,Tool wear [min]+Air temperature [K],random_forest,100,100,500,0,0.98625,0.829,0.15725,2000,0,0,False,118.8303999947384
+maintenance,ks,sudden,Tool wear [min]+Air temperature [K],random_forest,100,100,500,1,0.98625,0.829,0.15725,2000,0,0,False,84.99949999619275
+maintenance,ks,sudden,Tool wear [min]+Air temperature [K],random_forest,100,100,-1,0,0.98625,0.829,0.15725,2000,0,0,False,476.5668999981135
+maintenance,ks,sudden,Tool wear [min]+Air temperature [K],random_forest,100,100,-1,1,0.98625,0.829,0.15725,2000,0,0,False,344.4652000013739
+maintenance,ks,gradual,Tool wear [min]+Air temperature [K],random_forest,100,100,500,0,0.98625,0.8715,0.11474999999999991,2000,0,0,False,79.92650000471622
+maintenance,ks,gradual,Tool wear [min]+Air temperature [K],random_forest,100,100,500,1,0.98625,0.8715,0.11474999999999991,2000,0,0,False,77.67320000100881
+maintenance,ks,gradual,Tool wear [min]+Air temperature [K],random_forest,100,100,-1,0,0.98625,0.8715,0.11474999999999991,2000,0,0,False,351.62769999634475
+maintenance,ks,gradual,Tool wear [min]+Air temperature [K],random_forest,100,100,-1,1,0.98625,0.8715,0.11474999999999991,2000,0,0,False,364.9505999982357
+maintenance,ks,recurring,Tool wear [min]+Air temperature [K],random_forest,100,100,500,0,0.98625,0.907,0.07924999999999993,2000,0,0,False,68.1777999997139
+maintenance,ks,recurring,Tool wear [min]+Air temperature [K],random_forest,100,100,500,1,0.98625,0.907,0.07924999999999993,2000,0,0,False,82.57040000800043
+maintenance,ks,recurring,Tool wear [min]+Air temperature [K],random_forest,100,100,-1,0,0.98625,0.907,0.07924999999999993,2000,0,0,False,369.44280000124127
+maintenance,ks,recurring,Tool wear [min]+Air temperature [K],random_forest,100,100,-1,1,0.98625,0.907,0.07924999999999993,2000,0,0,False,344.63470000308007
+maintenance,psi,sudden,Tool wear [min]+Air temperature [K],random_forest,100,100,500,0,0.98625,0.829,0.15725,2000,0,0,False,26.809699999168515
+maintenance,psi,sudden,Tool wear [min]+Air temperature [K],random_forest,100,100,500,1,0.98625,0.829,0.15725,2000,0,0,False,20.51100000552833
+maintenance,psi,sudden,Tool wear [min]+Air temperature [K],random_forest,100,100,-1,0,0.98625,0.829,0.15725,2000,0,0,False,33.764199991710484
+maintenance,psi,sudden,Tool wear [min]+Air temperature [K],random_forest,100,100,-1,1,0.98625,0.829,0.15725,2000,0,0,False,37.33300000149757
+maintenance,psi,gradual,Tool wear [min]+Air temperature [K],random_forest,100,100,500,0,0.98625,0.8715,0.11474999999999991,2000,0,0,False,23.561800001189113
+maintenance,psi,gradual,Tool wear [min]+Air temperature [K],random_forest,100,100,500,1,0.98625,0.8715,0.11474999999999991,2000,0,0,False,26.24019999895245
+maintenance,psi,gradual,Tool wear [min]+Air temperature [K],random_forest,100,100,-1,0,0.98625,0.8715,0.11474999999999991,2000,0,0,False,45.21119999978691
+maintenance,psi,gradual,Tool wear [min]+Air temperature [K],random_forest,100,100,-1,1,0.98625,0.8715,0.11474999999999991,2000,0,0,False,51.001200002618134
+maintenance,psi,recurring,Tool wear [min]+Air temperature [K],random_forest,100,100,500,0,0.98625,0.907,0.07924999999999993,2000,0,0,False,17.24150000140071
+maintenance,psi,recurring,Tool wear [min]+Air temperature [K],random_forest,100,100,500,1,0.98625,0.907,0.07924999999999993,2000,0,0,False,21.482800000347197
+maintenance,psi,recurring,Tool wear [min]+Air temperature [K],random_forest,100,100,-1,0,0.98625,0.907,0.07924999999999993,2000,0,0,False,31.084400000050664
+maintenance,psi,recurring,Tool wear [min]+Air temperature [K],random_forest,100,100,-1,1,0.98625,0.907,0.07924999999999993,2000,0,0,False,37.58379999920726
+maintenance,wasserstein,sudden,Tool wear [min]+Air temperature [K],random_forest,100,100,500,0,0.98625,0.829,0.15725,2000,0,0,False,15.885200001299381
+maintenance,wasserstein,sudden,Tool wear [min]+Air temperature [K],random_forest,100,100,500,1,0.98625,0.829,0.15725,2000,0,0,False,7.257599997334182
+maintenance,wasserstein,sudden,Tool wear [min]+Air temperature [K],random_forest,100,100,-1,0,0.98625,0.829,0.15725,2000,0,0,False,66.64689999166876
+maintenance,wasserstein,sudden,Tool wear [min]+Air temperature [K],random_forest,100,100,-1,1,0.98625,0.829,0.15725,2000,0,0,False,71.59480000566691
+maintenance,wasserstein,gradual,Tool wear [min]+Air temperature [K],random_forest,100,100,500,0,0.98625,0.8715,0.11474999999999991,2000,0,0,False,10.842399992980063
+maintenance,wasserstein,gradual,Tool wear [min]+Air temperature [K],random_forest,100,100,500,1,0.98625,0.8715,0.11474999999999991,2000,0,0,False,7.689999993890524
+maintenance,wasserstein,gradual,Tool wear [min]+Air temperature [K],random_forest,100,100,-1,0,0.98625,0.8715,0.11474999999999991,2000,0,0,False,68.34979999344796
+maintenance,wasserstein,gradual,Tool wear [min]+Air temperature [K],random_forest,100,100,-1,1,0.98625,0.8715,0.11474999999999991,2000,0,0,False,69.33699999935925
+maintenance,wasserstein,recurring,Tool wear [min]+Air temperature [K],random_forest,100,100,500,0,0.98625,0.907,0.07924999999999993,2000,0,0,False,6.556900006718934
+maintenance,wasserstein,recurring,Tool wear [min]+Air temperature [K],random_forest,100,100,500,1,0.98625,0.907,0.07924999999999993,2000,0,0,False,6.836899995803833
+maintenance,wasserstein,recurring,Tool wear [min]+Air temperature [K],random_forest,100,100,-1,0,0.98625,0.907,0.07924999999999993,2000,0,0,False,150.88739999383688
+maintenance,wasserstein,recurring,Tool wear [min]+Air temperature [K],random_forest,100,100,-1,1,0.98625,0.907,0.07924999999999993,2000,0,0,False,132.25639999378473
+maintenance,mmd,sudden,Tool wear [min]+Air temperature [K],random_forest,100,100,500,0,0.98625,0.829,0.15725,2000,0,0,False,1936.7407999988645
+maintenance,mmd,sudden,Tool wear [min]+Air temperature [K],random_forest,100,100,500,1,0.98625,0.829,0.15725,2000,0,0,False,1906.5560000054538
+maintenance,mmd,sudden,Tool wear [min]+Air temperature [K],random_forest,100,100,-1,0,0.98625,0.829,0.15725,2000,0,0,False,1968.9392999969423
+maintenance,mmd,sudden,Tool wear [min]+Air temperature [K],random_forest,100,100,-1,1,0.98625,0.829,0.15725,2000,0,0,False,2879.403600005433
+maintenance,mmd,gradual,Tool wear [min]+Air temperature [K],random_forest,100,100,500,0,0.98625,0.8715,0.11474999999999991,2000,0,0,False,2041.0846000034362
+maintenance,mmd,gradual,Tool wear [min]+Air temperature [K],random_forest,100,100,500,1,0.98625,0.8715,0.11474999999999991,2000,0,0,False,1996.623700001277
+maintenance,mmd,gradual,Tool wear [min]+Air temperature [K],random_forest,100,100,-1,0,0.98625,0.8715,0.11474999999999991,2000,0,0,False,1892.5007000053301
+maintenance,mmd,gradual,Tool wear [min]+Air temperature [K],random_forest,100,100,-1,1,0.98625,0.8715,0.11474999999999991,2000,0,0,False,1904.2363999960944
+maintenance,mmd,recurring,Tool wear [min]+Air temperature [K],random_forest,100,100,500,0,0.98625,0.907,0.07924999999999993,2000,0,0,False,1995.329799999483
+maintenance,mmd,recurring,Tool wear [min]+Air temperature [K],random_forest,100,100,500,1,0.98625,0.907,0.07924999999999993,2000,0,0,False,2740.0190999973565
+maintenance,mmd,recurring,Tool wear [min]+Air temperature [K],random_forest,100,100,-1,0,0.98625,0.907,0.07924999999999993,2000,0,0,False,1848.562699998729
+maintenance,mmd,recurring,Tool wear [min]+Air temperature [K],random_forest,100,100,-1,1,0.98625,0.907,0.07924999999999993,2000,0,0,False,1944.5771000012755
+maintenance,c2st,sudden,Tool wear [min]+Air temperature [K],random_forest,100,100,500,0,0.98625,0.829,0.15725,2000,0,0,False,299.54370000213385
+maintenance,c2st,sudden,Tool wear [min]+Air temperature [K],random_forest,100,100,500,1,0.98625,0.829,0.15725,2000,0,0,False,231.5148000009358
+maintenance,c2st,sudden,Tool wear [min]+Air temperature [K],random_forest,100,100,-1,0,0.98625,0.829,0.15725,2100,100,1,False,208.3237000014633
+maintenance,c2st,sudden,Tool wear [min]+Air temperature [K],random_forest,100,100,-1,1,0.98625,0.829,0.15725,2100,100,1,False,237.08169999625534
+maintenance,c2st,gradual,Tool wear [min]+Air temperature [K],random_forest,100,100,500,0,0.98625,0.8715,0.11474999999999991,2000,0,0,False,264.38239999394864
+maintenance,c2st,gradual,Tool wear [min]+Air temperature [K],random_forest,100,100,500,1,0.98625,0.8715,0.11474999999999991,2000,0,0,False,218.43510000035167
+maintenance,c2st,gradual,Tool wear [min]+Air temperature [K],random_forest,100,100,-1,0,0.98625,0.8715,0.11474999999999991,2400,400,4,False,212.0667999982834
+maintenance,c2st,gradual,Tool wear [min]+Air temperature [K],random_forest,100,100,-1,1,0.98625,0.8715,0.11474999999999991,2400,400,4,False,234.35320000257343
+maintenance,c2st,recurring,Tool wear [min]+Air temperature [K],random_forest,100,100,500,0,0.98625,0.907,0.07924999999999993,2000,0,0,False,205.972199998796
+maintenance,c2st,recurring,Tool wear [min]+Air temperature [K],random_forest,100,100,500,1,0.98625,0.907,0.07924999999999993,2000,0,0,False,205.7122999979183
+maintenance,c2st,recurring,Tool wear [min]+Air temperature [K],random_forest,100,100,-1,0,0.98625,0.907,0.07924999999999993,2100,100,1,False,219.01169999316335
+maintenance,c2st,recurring,Tool wear [min]+Air temperature [K],random_forest,100,100,-1,1,0.98625,0.907,0.07924999999999993,2100,100,1,False,209.82159999758005
+maintenance,hdddm,sudden,Tool wear [min]+Air temperature [K],random_forest,100,100,500,0,0.98625,0.829,0.15725,2000,0,0,False,16.560800002887845
+maintenance,hdddm,sudden,Tool wear [min]+Air temperature [K],random_forest,100,100,500,1,0.98625,0.829,0.15725,2000,0,0,False,10.168799994513392
+maintenance,hdddm,sudden,Tool wear [min]+Air temperature [K],random_forest,100,100,-1,0,0.98625,0.829,0.15725,2000,0,0,False,45.68960000760853
+maintenance,hdddm,sudden,Tool wear [min]+Air temperature [K],random_forest,100,100,-1,1,0.98625,0.829,0.15725,2000,0,0,False,14.982999993488193
+maintenance,hdddm,gradual,Tool wear [min]+Air temperature [K],random_forest,100,100,500,0,0.98625,0.8715,0.11474999999999991,2000,0,0,False,13.911899995990098
+maintenance,hdddm,gradual,Tool wear [min]+Air temperature [K],random_forest,100,100,500,1,0.98625,0.8715,0.11474999999999991,2000,0,0,False,14.880699999630451
+maintenance,hdddm,gradual,Tool wear [min]+Air temperature [K],random_forest,100,100,-1,0,0.98625,0.8715,0.11474999999999991,2000,0,0,False,23.192700000479817
+maintenance,hdddm,gradual,Tool wear [min]+Air temperature [K],random_forest,100,100,-1,1,0.98625,0.8715,0.11474999999999991,2000,0,0,False,20.603600004687905
+maintenance,hdddm,recurring,Tool wear [min]+Air temperature [K],random_forest,100,100,500,0,0.98625,0.907,0.07924999999999993,2000,0,0,False,10.345300003886223
+maintenance,hdddm,recurring,Tool wear [min]+Air temperature [K],random_forest,100,100,500,1,0.98625,0.907,0.07924999999999993,2000,0,0,False,16.6797999991104
+maintenance,hdddm,recurring,Tool wear [min]+Air temperature [K],random_forest,100,100,-1,0,0.98625,0.907,0.07924999999999993,2000,0,0,False,12.548200000077486
+maintenance,hdddm,recurring,Tool wear [min]+Air temperature [K],random_forest,100,100,-1,1,0.98625,0.907,0.07924999999999993,2000,0,0,False,12.604400001466274

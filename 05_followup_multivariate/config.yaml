@@ -1,0 +1,70 @@
+datasets:
+  credit:
+    path: ../02_implementation/data/credit_raw.csv
+    target: dpnm
+    drop_cols: [ID]
+    primary_drift_feature: AGE
+    multivariate_drift_features: [AGE, BILL_AMT1]
+  telco:
+    path: ../02_implementation/data/telco_raw.csv
+    target: Churn Value
+    drop_cols:
+      - CustomerID
+      - Count
+      - Country
+      - State
+      - City
+      - Zip Code
+      - Lat Long
+      - Latitude
+      - Longitude
+      - Churn Label
+      - Churn Score
+      - Churn Reason
+      - CLTV
+    primary_drift_feature: Monthly Charges
+    multivariate_drift_features: [Monthly Charges, Total Charges]
+  maintenance:
+    path: ../02_implementation/data/predictive_maintenance.csv
+    target: Machine failure
+    drop_cols: [UDI, Product ID, TWF, HDF, PWF, OSF, RNF]
+    primary_drift_feature: "Tool wear [min]"
+    multivariate_drift_features: ["Tool wear [min]", "Air temperature [K]"]
+
+split:
+  reference_ratio: 0.6
+  random_state: 42
+
+models:
+  n_estimators: 100
+  random_state: 42
+
+detectors:
+  ks:
+    threshold: 0.05
+  psi:
+    threshold: 0.25
+  wasserstein:
+    threshold: 0.25
+  mmd:
+    threshold: 0.01
+    n_permutations: 199   # min achievable p-value = 1/200 = 0.005, must stay below threshold above
+    max_samples: 300   # resource-constraint cap on the O(n^2) kernel computation; see mmd.py
+  c2st:
+    threshold: 0.01
+  hdddm:
+    threshold: 0.15
+
+constraints:
+  monitoring_frequency: [10, 50, 100, 500, 1000]
+  window_size: [50, 100, 500, 1000]
+  reference_size: [100, 500, null]   # null = unlimited (full reference period)
+
+simulation:
+  drift_start_ratio: 0.5
+  drift_magnitude: 2.0
+  repetitions: 5
+  drift_types: [sudden, gradual, recurring]
+
+results:
+  output_dir: results

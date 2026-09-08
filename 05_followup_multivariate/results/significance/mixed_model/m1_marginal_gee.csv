@@ -1,0 +1,20 @@
+term,coef,std_err,z_score,p_value,OR_or_mult,CI_lower,CI_upper,p_str,significant
+Intercept,-92.9449,2968.9144,-0.031,0.9750254931383201,0.0,0.0,inf,0.9750,False
+"C(detector, Treatment('ks'))[T.c2st]",1.1402,0.4268,2.671,0.00755563348114958,3.1275,1.3548,7.22,0.0076,True
+"C(detector, Treatment('ks'))[T.hdddm]",-2.123,0.4078,-5.206,1.9330279547930963e-07,0.1197,0.0538,0.2662,<0.001,True
+"C(detector, Treatment('ks'))[T.mmd]",1.1402,0.3383,3.371,0.0007494210543391254,3.1275,1.6116,6.0693,<0.001,True
+"C(detector, Treatment('ks'))[T.psi]",-1.3362,0.4119,-3.244,0.0011784340486635622,0.2628,0.1172,0.5892,0.0012,True
+"C(detector, Treatment('ks'))[T.wasserstein]",-0.8274,0.3272,-2.529,0.01144323321447443,0.4372,0.2302,0.8302,0.0114,True
+"C(win_cat, Treatment('50'))[T.100]",0.6488,0.3274,1.982,0.04748765435131225,1.9133,1.0072,3.6345,0.0475,True
+"C(win_cat, Treatment('50'))[T.1000]",-3.4681,1.3319,-2.604,0.009220879712906294,0.0312,0.0023,0.4242,0.0092,True
+"C(win_cat, Treatment('50'))[T.500]",-30.2791,1.0143,-29.852,8.364563248954816e-196,0.0,0.0,0.0,<0.001,True
+"C(freq_cat, Treatment('10'))[T.100]",0.0013,,,,1.0013,,,nan,False
+"C(freq_cat, Treatment('10'))[T.1000]",31.7676,,,,62590535875054.68,,,nan,False
+"C(freq_cat, Treatment('10'))[T.50]",0.0013,,,,1.0013,,,nan,False
+"C(freq_cat, Treatment('10'))[T.500]",24.7038,,,,53545185141.2226,,,nan,False
+"C(ref_size_cat, Treatment('full'))[T.100]",0.0,0.6424,0.0,0.9999999999999952,1.0,0.2839,3.5223,1.0000,False
+"C(ref_size_cat, Treatment('full'))[T.500]",0.1329,0.1932,0.688,0.4914952069398417,1.1422,0.7821,1.668,0.4915,False
+"C(dataset, Treatment('credit'))[T.maintenance]",0.0003,1861.3827,0.0,0.9999998560939639,1.0003,0.0,inf,1.0000,False
+"C(dataset, Treatment('credit'))[T.telco]",31.1821,1861.8248,0.017,0.9866375543484578,34850020062274.91,0.0,inf,0.9866,False
+"C(drift_type_clean, Treatment('sudden'))[T.gradual]",26.2446,1575.761,0.017,0.9867116896654484,249970814802.9466,0.0,inf,0.9867,False
+"C(drift_type_clean, Treatment('sudden'))[T.recurring]",31.1399,1493.0727,0.021,0.9833603263760268,33410696482135.727,0.0,inf,0.9834,False

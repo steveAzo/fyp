@@ -1,0 +1,7 @@
+condition,factor,epsilon_squared,p
+marginal,detector_class,0.007,2.0688012520993564e-26
+marginal,monitoring_frequency,0.2503,0.0
+marginal,window_size,0.3493,0.0
+correlation,detector_class,0.0215,3.99886567845527e-09
+correlation,monitoring_frequency,0.1372,1.3481847923106479e-48
+correlation,window_size,0.0959,2.1676804263715595e-35
