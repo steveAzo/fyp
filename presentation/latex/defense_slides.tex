@@ -1,0 +1,149 @@
+\documentclass[aspectratio=169]{beamer}
+
+\usetheme{Madrid}
+\usecolortheme{default}
+\setbeamertemplate{navigation symbols}{}
+
+\usepackage{graphicx}
+\usepackage{tikz}
+\usepackage{ragged2e}
+
+\definecolor{UGBlue}{RGB}{21,55,94}
+\definecolor{UGLight}{RGB}{243,246,251}
+
+\setbeamercolor{frametitle}{bg=UGBlue,fg=white}
+\setbeamercolor{title}{fg=UGBlue}
+\setbeamercolor{structure}{fg=UGBlue}
+
+\title{Resource-Constrained Evaluation of Lightweight Concept Drift Detectors in Machine Learning}
+\subtitle{An Empirical Evaluation of Lightweight Drift Detectors Under Resource Constraints}
+\author{Stephen Kwaku Azongo}
+\institute{Department of Computer Science, University of Ghana}
+\date{Defense Presentation}
+
+\newcommand{\templatecover}[5]{%
+  \begin{frame}[plain]
+    \begin{tikzpicture}[remember picture,overlay]
+      \node[anchor=south west, inner sep=0] at (current page.south west)
+      {\includegraphics[width=\paperwidth,height=\paperheight]{assets/ug_template_cover_bg.jpg}};
+
+      \node[anchor=north, text=white, font=\bfseries\large] at ([yshift=-0.45cm]current page.north)
+      {FINAL YEAR PROJECT PRESENTATION \& DEMO};
+
+      \node[anchor=north, text=white, font=\bfseries\large, align=center, text width=0.80\paperwidth]
+      at ([yshift=-1.35cm]current page.north) {#1};
+
+      \node[anchor=north, text=white, font=\bfseries\normalsize, align=center]
+      at ([yshift=-2.65cm]current page.north) {#2\\#3\\#4};
+
+      \node[anchor=north, text=white, font=\bfseries\scriptsize, align=center]
+      at ([yshift=-4.35cm]current page.north) {SUPERVISOR: #5\\8\textsuperscript{TH} OCTOBER 2026};
+    \end{tikzpicture}
+  \end{frame}
+}
+
+\begin{document}
+
+\templatecover
+{Resource-Constrained Evaluation of Lightweight Concept Drift Detectors in Machine Learning}
+{Stephen Kwaku Azongo}
+{ID: 11027858}
+{Department of Computer Science, University of Ghana}
+{Prof. KOFI SARPONG ADU-MANU}
+
+\begin{frame}{OUTLINE OF PRESENTATION}
+  \begin{enumerate}
+    \item Introduction
+    \item Aims and Objectives
+    \item Related Work
+    \item Proposed Solution (Methodology)
+    \item Key Results
+    \item Conclusion
+  \end{enumerate}
+\end{frame}
+
+\begin{frame}{Introduction}
+  \justifying
+  \textbf{Problem context:} Machine learning models in production face concept drift, where the joint distribution \(P(X,y)\) changes over time and degrades prediction quality.
+  \vspace{0.4em}
+
+  \textbf{Research gap:}
+  \begin{itemize}
+    \item Existing drift benchmarks usually hold deployment resources constant.
+    \item Real systems must trade off monitoring frequency, detection window size, and reference memory.
+    \item It remains unclear which constraint matters most in practical detection performance.
+  \end{itemize}
+
+  \textbf{Study focus:} Evaluate lightweight unsupervised detectors under realistic resource constraints across financial, telecom, and industrial datasets.
+\end{frame}
+
+\begin{frame}{Aims and Objectives}
+  \textbf{Aim:}
+  \begin{itemize}
+    \item To determine whether monitoring configuration is more consequential than detector algorithm under resource-constrained deployment.
+  \end{itemize}
+
+  \textbf{Specific Objectives:}
+  \begin{enumerate}
+    \item Compare KS, PSI, and Wasserstein detectors over 8,100 experimental runs.
+    \item Quantify the effect of monitoring frequency, window size, and reference size on delay and missed detection.
+    \item Evaluate sensitivity across sudden, gradual, and recurring drift.
+    \item Assess downstream model robustness (Random Forest, Logistic Regression, LightGBM) under controlled drift.
+  \end{enumerate}
+\end{frame}
+
+\begin{frame}{Related Work}
+  \begin{itemize}
+    \item \textbf{Concept drift foundations:} Gama et al.\ formalize drift types and adaptive monitoring needs.
+    \item \textbf{Empirical detector benchmarks:} Barros \& Santos; Lukats et al.\ compare many detectors but do not model deployment constraints as primary factors.
+    \item \textbf{Distribution-based monitoring:} KS, PSI, and Wasserstein are practical, label-free, and lightweight for production settings.
+    \item \textbf{Open gap addressed in this project:}
+    \begin{itemize}
+      \item No prior study systematically ranks resource constraints by their quantitative impact on detection outcomes.
+    \end{itemize}
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Proposed Solution (Methodology)}
+  \begin{itemize}
+    \item \textbf{Datasets:} UCI Credit Default, IBM Telco Churn, and UCI AI4I Predictive Maintenance.
+    \item \textbf{Drift simulation:} Sudden, gradual, and recurring drift injected into stream portions after a 60/40 reference-stream split.
+    \item \textbf{Detectors:} Kolmogorov-Smirnov test, Population Stability Index, and Wasserstein distance.
+    \item \textbf{Constraint grid:}
+    \begin{itemize}
+      \item Monitoring frequency: \(\{10, 50, 100, 500, 1000\}\)
+      \item Detection window size: \(\{50, 100, 500, 1000\}\)
+      \item Reference size: \(\{100, 500, \text{unlimited}\}\)
+    \end{itemize}
+    \item \textbf{Analysis:} Kruskal-Wallis, pairwise Mann-Whitney U (Bonferroni), Spearman correlation, and effect sizes.
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Key Results}
+  \begin{itemize}
+    \item Constraint configuration produced a \textbf{37-fold} range in detection delay, much larger than detector-to-detector differences.
+    \item Gradual drift was significantly harder to detect than sudden/recurring drift (\(r \approx 0.30\), medium effect).
+    \item Detection window size had the strongest individual impact; monitoring frequency was second.
+    \item A 500-sample reference window performed comparably to unlimited reference in most settings.
+    \item For post-drift model robustness, Random Forest degraded less than LightGBM (\(r=0.383\)) and Logistic Regression (\(r=0.185\)).
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Conclusion}
+  \begin{block}{Main Conclusion}
+    In resource-constrained monitoring, \textbf{configuration matters more than algorithm} for practical drift detection performance.
+  \end{block}
+
+  \textbf{Deployment priority hierarchy:}
+  \begin{enumerate}
+    \item Configure monitoring regime first (frequency, window, reference).
+    \item Account for drift type behavior, especially gradual drift.
+    \item Then optimize detector and predictive model selection.
+  \end{enumerate}
+
+  \vspace{0.5em}
+  \centering
+  \large \textbf{Thank You}
+\end{frame}
+
+\end{document}

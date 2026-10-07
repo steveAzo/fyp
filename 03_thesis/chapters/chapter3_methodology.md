@@ -30,7 +30,7 @@ Following removal of the row identifier column, the dataset provides 30,000 usab
 
 ### 3.2.2 IBM Telco Customer Churn
 
-This dataset contains approximately 7,000 customer records from a telecommunications provider with 33 raw features. Following removal of geographic identifiers (Country, State, City, Zip Code, latitude, longitude), administrative columns (CustomerID, Count), and direct leakage columns — variables that encode or summarise the target outcome (Churn Label, Churn Score, Churn Reason, Customer Lifetime Value) — 19 usable features remain. The binary target indicates whether a customer churned.
+This dataset contains approximately 7,000 customer records from a telecommunications provider with 33 raw features. Following removal of geographic identifiers (Country, State, City, Zip Code, latitude, longitude), administrative columns (CustomerID, Count), and direct leakage columns (variables that encode or summarise the target outcome: Churn Label, Churn Score, Churn Reason, Customer Lifetime Value), 19 usable features remain. The binary target indicates whether a customer churned.
 
 Removing leakage columns is critical for experimental validity: retaining a column such as *Churn Score*, which directly summarises the outcome, would allow any classifier to achieve near-perfect accuracy trivially and would not reflect realistic deployment conditions. This form of data leakage is a well-documented threat to validity in applied machine learning research.
 
@@ -60,7 +60,7 @@ Categorical features were encoded using a LabelEncoder fitted on the union of re
 
 ## 3.3 Drift Detection Methods
 
-Three drift detection methods were selected based on the following criteria: (a) interpretability, enabling clear explanation of detection decisions; (b) low computational overhead, consistent with the lightweight deployment context; (c) widespread adoption in academic and industrial practice, ensuring that findings are relevant to real deployment decisions. All three methods operate as univariate two-sample tests — they compare a reference distribution against a test window drawn from the stream on a single feature at a time.
+Three drift detection methods were selected based on the following criteria: (a) interpretability, enabling clear explanation of detection decisions; (b) low computational overhead, consistent with the lightweight deployment context; (c) widespread adoption in academic and industrial practice, ensuring that findings are relevant to real deployment decisions. All three methods operate as univariate two-sample tests: they compare a reference distribution against a test window drawn from the stream on a single feature at a time.
 
 ### 3.3.1 Kolmogorov-Smirnov Test
 
@@ -70,7 +70,7 @@ The two-sample Kolmogorov-Smirnov (KS) test is a nonparametric statistical test 
 
 where F_ref and F_test are the empirical CDFs of the reference and test samples respectively (Massey, 1951). The associated p-value gives the probability of observing a distance of at least D under the null hypothesis that both samples were drawn from the same distribution. A p-value below the significance threshold α = 0.05 triggers a drift detection.
 
-The KS test makes no parametric assumption about the form of the underlying distribution and is sensitive to differences in location, scale, and shape — a generality that makes it broadly applicable across feature types and drift patterns (Gemaque et al., 2020; Agrahari & Singh, 2021). Its computational cost is O(n log n) due to the need to sort both samples before CDF comparison, making it practical for the window sizes used in this study. The KS test has been used as a primary drift detection method in numerous empirical evaluations (Lu et al., 2019; Arora et al., 2024).
+The KS test makes no parametric assumption about the form of the underlying distribution and is sensitive to differences in location, scale, and shape, a generality that makes it broadly applicable across feature types and drift patterns (Gemaque et al., 2020; Agrahari & Singh, 2021). Its computational cost is O(n log n) due to the need to sort both samples before CDF comparison, making it practical for the window sizes used in this study. The KS test has been used as a primary drift detection method in numerous empirical evaluations (Lu et al., 2019; Arora et al., 2024).
 
 In this study, drift is declared when the returned p-value falls below **0.05**, the conventional significance level in hypothesis testing.
 
@@ -84,7 +84,7 @@ where P_ref,i and P_test,i are the proportions of observations falling in bin i 
 
 The conventional interpretation thresholds are: PSI < 0.10 indicates no significant shift; 0.10 ≤ PSI < 0.25 indicates moderate shift warranting investigation; PSI ≥ 0.25 indicates significant shift (Taplin & Hunt, 2019). In this study, a threshold of **0.25** was adopted, calibrated against the empirical noise floor on standardised pre-drift data to maintain a false positive rate below 1%.
 
-PSI is included despite known conceptual limitations identified in the literature. Taplin and Hunt (2019) demonstrate that PSI cannot distinguish between extrapolation (where the test data falls outside the reference distribution — a genuine concern) and interpolation (where the test data is less variable than the reference — a safe condition where the model is actually more reliable). They also show that PSI's binning approach discards information about how extreme outlier values are, and that univariate PSI applied independently to each feature can fail to detect multivariate distributional shift. Including PSI in this evaluation allows these conceptual limitations to be assessed empirically under varying resource constraints — specifically whether small window sizes exacerbate sparse bin problems, and whether infrequent monitoring inflates the cost of PSI's interpolation false positives.
+PSI is included despite known conceptual limitations identified in the literature. Taplin and Hunt (2019) demonstrate that PSI cannot distinguish between extrapolation (where the test data falls outside the reference distribution, a genuine concern) and interpolation (where the test data is less variable than the reference, a safe condition where the model is actually more reliable). They also show that PSI's binning approach discards information about how extreme outlier values are, and that univariate PSI applied independently to each feature can fail to detect multivariate distributional shift. Including PSI in this evaluation allows these conceptual limitations to be assessed empirically under varying resource constraints, specifically whether small window sizes exacerbate sparse bin problems, and whether infrequent monitoring inflates the cost of PSI's interpolation false positives.
 
 Equal-frequency binning with **10 bins** was adopted, consistent with banking practice and the recommendation in Taplin and Hunt (2019). To prevent undefined values when a bin is empty, a floor of 1×10⁻⁴ was applied to all proportions before computing the logarithm.
 
@@ -96,7 +96,7 @@ The first Wasserstein distance, also known as the Earth Mover's Distance (EMD), 
 
 Unlike the KS statistic, which measures only the maximum gap between two CDFs at a single point, the Wasserstein distance integrates the total difference across the entire support. This makes it sensitive to the *magnitude* of shift across the whole distribution, not just its most extreme single-point deviation. As a result, Wasserstein distance tends to respond more gradually to distributional change and is particularly effective at characterising shift magnitude in continuously evolving distributions (Gemaque et al., 2020).
 
-Because all features in this study were standardised to zero mean and unit variance prior to detection, a Wasserstein threshold of **0.25** corresponds to a shift of approximately 0.25 standard deviations in the underlying distribution — a threshold calibrated against the pre-drift noise floor to maintain a false positive rate below 1% on clean data.
+Because all features in this study were standardised to zero mean and unit variance prior to detection, a Wasserstein threshold of **0.25** corresponds to a shift of approximately 0.25 standard deviations in the underlying distribution, a threshold calibrated against the pre-drift noise floor to maintain a false positive rate below 1% on clean data.
 
 The Wasserstein distance was computed using the `scipy.stats.wasserstein_distance` implementation, which operates on empirical samples and requires O(n log n) time due to the internal sort operation. It is marginally more expensive than the KS test for large window sizes, representing a genuine computational trade-off relevant to the resource constraint analysis.
 
@@ -104,9 +104,9 @@ The Wasserstein distance was computed using the `scipy.stats.wasserstein_distanc
 
 ## 3.4 Drift Simulation
 
-Controlled drift injection was adopted rather than relying on observed real-world drift events. This design choice is motivated by two requirements that cannot be satisfied with natural drift in static datasets: (a) ground truth availability — detecting drift requires knowing precisely when it occurred to measure detection delay; and (b) systematic controllability — varying drift type, magnitude, and timing independently requires programmatic injection (Lu et al., 2019; Arora et al., 2024).
+Controlled drift injection was adopted rather than relying on observed real-world drift events. This design choice is motivated by two requirements that cannot be satisfied with natural drift in static datasets: (a) ground truth availability: detecting drift requires knowing precisely when it occurred to measure detection delay; and (b) systematic controllability: varying drift type, magnitude, and timing independently requires programmatic injection (Lu et al., 2019; Arora et al., 2024).
 
-Drift was injected into a single designated feature per dataset (the drift feature specified in Section 3.2). This univariate injection approach enables direct evaluation of each detector's sensitivity to a single-feature shift under varying constraints. While real-world drift often involves multiple features simultaneously, the univariate approach provides a controlled baseline that isolates detection capability from multivariate complexity — a deliberate simplification appropriate for a systematic empirical study.
+Drift was injected into a single designated feature per dataset (the drift feature specified in Section 3.2). This univariate injection approach enables direct evaluation of each detector's sensitivity to a single-feature shift under varying constraints. While real-world drift often involves multiple features simultaneously, the univariate approach provides a controlled baseline that isolates detection capability from multivariate complexity, a deliberate simplification appropriate for a systematic empirical study.
 
 Three drift patterns were implemented, reflecting the standard taxonomy of drift types in the literature (Lu et al., 2019; Suárez-Cetrulo et al., 2022):
 
@@ -116,7 +116,7 @@ Sudden (abrupt) drift introduces an immediate, permanent shift to the feature di
 
 > x'_i = x_i + 2σ, for all i ≥ drift_start
 
-where σ is the standard deviation of the feature in the stream and 2σ is the shift magnitude. A magnitude of 2 standard deviations was selected as representing a shift that is detectable by statistical tests but not trivially obvious — large enough to test real detection capability while remaining within operationally realistic ranges. This magnitude and the standard-deviation-scaled construction follow the variance-based synthetic perturbation methodology used by Rabanser et al. (2019) in their widely-cited "Failing Loudly" dataset-shift benchmark, which established this class of shift as a standard tool for constructing controllable, detectable synthetic drift for evaluating detection methods.
+where σ is the standard deviation of the feature in the stream and 2σ is the shift magnitude. A magnitude of 2 standard deviations was selected as representing a shift that is detectable by statistical tests but not trivially obvious, large enough to test real detection capability while remaining within operationally realistic ranges. This magnitude and the standard-deviation-scaled construction follow the variance-based synthetic perturbation methodology used by Rabanser et al. (2019) in their widely-cited "Failing Loudly" dataset-shift benchmark, which established this class of shift as a standard tool for constructing controllable, detectable synthetic drift for evaluating detection methods.
 
 Sudden drift models scenarios such as sensor failure or replacement, abrupt changes in data pipeline configuration, or discontinuous population shifts arising from policy changes.
 
@@ -152,13 +152,13 @@ The drift start index was additionally constrained to fall no earlier than one f
 
 Three classifiers were employed to evaluate the generalisability of accuracy degradation findings across model types:
 
-**Random Forest** is an ensemble classifier that aggregates the predictions of 100 decision trees, each trained on a bootstrap sample of the training data using a random subset of features at each split (Breiman, 2001). The averaging mechanism across diverse trees provides inherent variance reduction and makes Random Forest relatively robust to individual data point variations — a property expected to affect how model accuracy degrades under drift.
+**Random Forest** is an ensemble classifier that aggregates the predictions of 100 decision trees, each trained on a bootstrap sample of the training data using a random subset of features at each split (Breiman, 2001). The averaging mechanism across diverse trees provides inherent variance reduction and makes Random Forest relatively robust to individual data point variations, a property expected to affect how model accuracy degrades under drift.
 
 **Logistic Regression** is a linear classifier that models the log-odds of class membership as a linear combination of features (Cox, 1958). Its simplicity makes it interpretable and computationally efficient, but its linear decision boundary may be more sensitive to distributional shift that moves samples across that boundary.
 
 **LightGBM** is a gradient boosting framework that uses leaf-wise tree growth with histogram-based split finding, providing efficient training on tabular data with high predictive accuracy (Ke et al., 2017). As a high-capacity, aggressive learner, LightGBM fits the training distribution more precisely than the ensemble-averaging approach of Random Forest, which may make it more sensitive to deployment-time distributional shift.
 
-All classifiers were trained exclusively on the reference set with no retraining during the stream phase. This design intentionally simulates a static deployed model that has not yet been updated in response to drift — the scenario in which drift detection is most consequential, as undetected drift causes accuracy to silently degrade.
+All classifiers were trained exclusively on the reference set with no retraining during the stream phase. This design intentionally simulates a static deployed model that has not yet been updated in response to drift, the scenario in which drift detection is most consequential, as undetected drift causes accuracy to silently degrade.
 
 The model comparison experiment used a fixed constraint configuration (monitoring frequency = 100 samples, window size = 500 samples, unlimited reference memory) to hold resource constraints constant while varying model type. This isolates the effect of model choice on accuracy degradation, independent of constraint-induced detection delays.
 
@@ -166,7 +166,7 @@ The model comparison experiment used a fixed constraint configuration (monitorin
 
 ## 3.6 Experimental Variables
 
-### 3.6.1 Independent Variables — Resource Constraints
+### 3.6.1 Independent Variables: Resource Constraints
 
 The following resource constraint dimensions were varied systematically in the primary experiment. Each dimension represents a specific type of resource limitation encountered in real-world low-resource deployment scenarios (Yang & Shami, 2021; Preuveneers et al., 2020):
 
@@ -176,7 +176,7 @@ The following resource constraint dimensions were varied systematically in the p
 | **Window size** | 50, 100, 500, 1000 samples | Number of recent stream samples used as the test distribution; constrained by available memory and latency budget |
 | **Reference size** | 100, 500, unlimited | Maximum number of reference samples retained in memory; constrained by device memory capacity |
 
-**Monitoring frequency** represents a computational constraint. In production monitoring systems, drift checks are not free — each invocation consumes CPU time and may block the main inference pipeline. A monitoring frequency of 10 means the detector runs after every 10 samples; a frequency of 1000 means it runs once per thousand samples. Higher frequency enables earlier detection but at greater total computational cost.
+**Monitoring frequency** represents a computational constraint. In production monitoring systems, drift checks are not free: each invocation consumes CPU time and may block the main inference pipeline. A monitoring frequency of 10 means the detector runs after every 10 samples; a frequency of 1000 means it runs once per thousand samples. Higher frequency enables earlier detection but at greater total computational cost.
 
 **Window size** represents both a memory and a computational constraint. A larger window provides more statistical power per check (reducing noise and false positives) but requires retaining more samples in a rolling buffer and performing more comparisons per invocation. A smaller window requires less memory and completes faster but may have insufficient sample size for reliable statistical testing, particularly for PSI which requires adequate counts in each bin.
 
@@ -184,7 +184,7 @@ The following resource constraint dimensions were varied systematically in the p
 
 **Justification of the tested ranges.** These ranges are grounded in the operational vocabulary of production ML monitoring rather than an arbitrary log-scale sweep. Industry monitoring guidance (Microsoft's Azure Machine Learning and Evidently AI's production monitoring documentation, among others) does not prescribe a single correct check interval; both frame the choice as a tradeoff between near-continuous and batch-style monitoring, driven by data volume and compute budget. The five monitoring-frequency levels tested span exactly this range: a frequency of 10 approximates near-continuous, streaming-style monitoring; a frequency of 1,000 approximates the coarse, periodic batch monitoring (daily or weekly jobs run over accumulated logs) common in cost-constrained deployments; the intermediate levels (50, 100, 500) interpolate between these two operating points. Window size and reference size are varied over a comparable range for the same underlying reason, so that the constraint grid characterises the full space from best-case to worst-case resourcing rather than a single assumed operating point.
 
-### 3.6.2 Dependent Variables — Detection Performance Metrics
+### 3.6.2 Dependent Variables: Detection Performance Metrics
 
 Five dependent variables were measured for each experimental configuration, capturing different facets of drift detection effectiveness and resource cost:
 
@@ -228,7 +228,7 @@ Each configuration was replicated five times with different random seeds. This r
 
 ## 3.8 Statistical Analysis
 
-Given the non-normal distribution of detection delay values — evidenced by large standard deviations relative to means, the presence of censored observations (missed detections producing undefined delay), and the discrete nature of the measurement — non-parametric statistical tests were employed throughout.
+Given the non-normal distribution of detection delay values, evidenced by large standard deviations relative to means, the presence of censored observations (missed detections producing undefined delay), and the discrete nature of the measurement, non-parametric statistical tests were employed throughout.
 
 ### 3.8.1 Kruskal-Wallis H-Test
 
@@ -267,45 +267,3 @@ The codebase is organised into seven modules: data loading and preprocessing (`d
 Experiments were executed in batch mode using an incremental CSV-writing strategy: each completed experiment is written to disk immediately upon completion, so that a hardware or software failure does not result in loss of previously computed results. A resume mechanism detects previously completed experiment keys on startup and skips them, enabling interrupted runs to continue from the point of failure. Model fitting used scikit-learn's and LightGBM's built-in multi-threading (`n_jobs=-1`); the detection procedure and the sequencing of configurations across the grid ran single-threaded and sequentially, with no distributed or multi-process execution.
 
 All experiments were conducted on a single consumer laptop: an Intel Core i3-1125G4 (11th generation, 4 physical cores, 8 logical threads, 2.00 GHz base clock), 4 GB RAM, running Windows 11 Home, without GPU acceleration or cloud resources. This is deliberately modest hardware relative to typical research compute, which is itself consistent with the resource-constrained framing of this thesis. Total wall-clock time for the original runs was not logged; a reproducible benchmark on the same machine, timing a random sample of configurations from each grid and extrapolating linearly, gives approximately 2.2 hours for the full primary experiment (1,620 configurations × 5 repetitions = 8,100 total runs) and approximately 4–5 minutes for the model comparison experiment (81 configurations × 5 repetitions = 405 total runs). These figures confirm that the experimental framework is executable within a resource budget consistent with the deployment scenarios under investigation, even on hardware substantially below typical research-cluster specifications.
-
----
-
-## References
-
-Agrahari, S., & Singh, A. (2021). Concept drift detection in data stream mining: A literature review. *Journal of King Saud University – Computer and Information Sciences*, 34, 9523–9540.
-
-Arora, S., Rani, R., & Saxena, N. (2024). A systematic review on detection and adaptation of concept drift in streaming data using machine learning techniques. *Wiley Interdisciplinary Reviews: Data Mining and Knowledge Discovery*, 14.
-
-Breiman, L. (2001). Random forests. *Machine Learning*, 45, 5–32.
-
-Cohen, J. (1988). *Statistical power analysis for the behavioral sciences* (2nd ed.). Lawrence Erlbaum Associates.
-
-Cox, D. R. (1958). The regression analysis of binary sequences. *Journal of the Royal Statistical Society: Series B*, 20(2), 215–232.
-
-Gemaque, R., Costa, A., Giusti, R., & Santos, E. (2020). An overview of unsupervised drift detection methods. *Wiley Interdisciplinary Reviews: Data Mining and Knowledge Discovery*, 10.
-
-Ke, G., Meng, Q., Finley, T., Wang, T., Chen, W., Ma, W., Ye, Q., & Liu, T.-Y. (2017). LightGBM: A highly efficient gradient boosting decision tree. *Advances in Neural Information Processing Systems*, 30.
-
-Kruskal, W. H., & Wallis, W. A. (1952). Use of ranks in one-criterion variance analysis. *Journal of the American Statistical Association*, 47(260), 583–621.
-
-Lu, J., Liu, A., Dong, F., Gu, F., Gama, J., & Zhang, G. (2019). Learning under concept drift: A review. *IEEE Transactions on Knowledge and Data Engineering*, 31, 2346–2363.
-
-Massey, F. J. (1951). The Kolmogorov-Smirnov test for goodness of fit. *Journal of the American Statistical Association*, 46(253), 68–78.
-
-Matzka, S. (2020). Explainable artificial intelligence for predictive maintenance applications. *2020 Third International Conference on Artificial Intelligence for Industries*.
-
-Preuveneers, D., Tsingenopoulos, I., & Joosen, W. (2020). Resource usage and performance trade-offs for machine learning models in smart environments. *Sensors*, 20(4), 1176.
-
-Rabanser, S., Günnemann, S., & Lipton, Z. (2019). Failing loudly: An empirical study of methods for detecting dataset shift. *Advances in Neural Information Processing Systems*, 32, 1394–1406.
-
-Spearman, C. (1904). The proof and measurement of association between two things. *The American Journal of Psychology*, 15(1), 72–101.
-
-Suárez-Cetrulo, A., Quintana, D., & Cervantes, A. (2022). A survey on machine learning for recurring concept drifting data streams. *Expert Systems with Applications*, 213, 118934.
-
-Taplin, R., & Hunt, C. (2019). The population accuracy index: A new measure of population stability for model monitoring. *Risks*, 7(2), 53.
-
-Villani, C. (2009). *Optimal transport: Old and new*. Springer.
-
-Yang, L., & Shami, A. (2021). A lightweight concept drift detection and adaptation framework for IoT data streams. *IEEE Internet of Things Magazine*, 4, 96–101.
-
-Yeh, I.-C. (2009). The comparisons of data mining techniques for the predictive accuracy of probability of default of credit card clients. *Expert Systems with Applications*, 36(2), 2473–2480.

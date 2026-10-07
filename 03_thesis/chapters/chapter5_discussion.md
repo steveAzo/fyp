@@ -1,8 +1,10 @@
-# Chapter 5: Discussion
+# Chapter 5: Discussion and Conclusion
 
 ## 5.1 Overview
 
-This chapter situates the empirical findings reported in Chapter 4 within the broader landscape of the drift detection literature, provides mechanistic explanations for the patterns observed, and draws out their practical implications for resource-constrained ML deployment. The discussion is organised around four themes that emerge from the aggregated findings: (1) the detection trade-off between delay, reliability, and computational cost; (2) why gradual drift remains the unresolved hard case; (3) the primacy of the monitoring regime as a design variable; and (4) the relationship between classifier architecture and drift robustness. The chapter closes with a critical appraisal of the study's limitations and a set of evidence-based recommendations for practitioners.
+This chapter situates the empirical findings reported in Chapter 4 within the broader landscape of the drift detection literature, provides mechanistic explanations for the patterns observed, and draws out their practical implications for resource-constrained ML deployment. The discussion is organised around four themes that emerge from the aggregated findings: (1) the detection trade-off between delay, reliability, and computational cost; (2) why gradual drift remains the unresolved hard case; (3) the primacy of the monitoring regime as a design variable; and (4) the relationship between classifier architecture and drift robustness. The chapter then draws together the study's contributions, limitations, and practical recommendations, positions the work relative to the existing literature, proposes directions for future research, and closes with concluding remarks on the thesis as a whole.
+
+This thesis set out to answer a practical question that is underserved by the existing drift detection literature: when lightweight, distribution-based drift detectors are deployed under resource constraints, which constraints matter most, how much do they matter, and do the answers differ by detector, drift type, or model architecture? The study addressed this question through a systematic empirical evaluation spanning 8,100 experimental runs, crossing three drift detectors, three datasets, three drift types, five monitoring frequencies, four detection window sizes, and three reference window sizes, supplemented by 405 model comparison experiments across three machine learning architectures.
 
 ---
 
@@ -66,15 +68,15 @@ The implication for practitioners is that models operating near peak performance
 
 The 37-fold range in mean detection delay achieved by varying monitoring frequency and window size alone, from 22.0 windows in the most-monitored configuration to 827.6 in the least, is the study's most consequential quantitative finding. It establishes that the monitoring regime is the primary design variable governing detection latency, superseding both the choice of detector (which produces small-to-negligible effect sizes, |r| ≤ 0.18 for any pairwise comparison) and drift type (which is a fixed property of the environment, not a design choice).
 
-This finding has not, to the authors' knowledge, been quantified in this form in the existing literature. Yang and Shami (2021) acknowledge that monitoring frequency is a key parameter in their IoT drift framework and propose adaptive window sizing as a solution, but do not systematically evaluate the delay consequences of specific frequency configurations. Preuveneers et al. (2020) discuss the cost-of-monitoring tradeoff in federated and edge settings but focus on computation overhead rather than detection latency. The present results give practitioners a concrete number: increasing monitoring frequency from 1,000 to 10 samples reduces expected detection delay by a factor of 37. No detector switch achieves anything comparable.
+This finding has not, to the author's knowledge, been quantified in this form in the existing literature. Yang and Shami (2021) acknowledge that monitoring frequency is a key parameter in their IoT drift framework and propose adaptive window sizing as a solution, but do not systematically evaluate the delay consequences of specific frequency configurations. Preuveneers et al. (2020) discuss the cost-of-monitoring tradeoff in federated and edge settings but focus on computation overhead rather than detection latency. The present results give practitioners a concrete number: increasing monitoring frequency from 1,000 to 10 samples reduces expected detection delay by a factor of 37. No detector switch achieves anything comparable.
 
-The missed detection threshold observed at monitoring\_frequency = 1,000 (5.56% missed for KS, 2.78% for PSI, 1.85% for Wasserstein) marks the point where the stream length provides too few check opportunities for reliable detection. This is a structural failure mode, not a calibration failure, and cannot be corrected by adjusting thresholds or choosing a different detector. It can only be corrected by increasing monitoring frequency.
+The missed detection threshold observed at monitoring_frequency = 1,000 (5.56% missed for KS, 2.78% for PSI, 1.85% for Wasserstein) marks the point where the stream length provides too few check opportunities for reliable detection. This is a structural failure mode, not a calibration failure, and cannot be corrected by adjusting thresholds or choosing a different detector. It can only be corrected by increasing monitoring frequency.
 
 ### 5.4.2 Window Size: The Dilution Effect and Its Inversion for PSI
 
 Window size's strong positive relationship with detection delay (ρ = 0.543, H = 2,381.184) reflects the dilution effect described in Section 4.4.3: a larger stream window contains more pre-drift observations at the moment drift begins, reducing the test's ability to detect a shift that has only recently commenced. This is a direct consequence of the way windowed two-sample tests work: they compare an aggregate over the window against an aggregate over the reference, so a recent sharp change is averaged across a long window and appears weaker than the same change compared across a shorter window.
 
-The inversion for PSI at small window sizes (missed detection rate 0.74% at window\_size = 50, zero at window\_size ≥ 500) is a separate phenomenon, not dilution but statistical instability. PSI's binning mechanism requires enough samples per bin to produce reliable density estimates. With window\_size = 50 and 10 equal-frequency bins, each bin receives on average 5 samples; random fluctuations at this scale produce bin proportions that are noisy even in the absence of drift. The consequence is that PSI's detection threshold (0.25) can be masked by noise in either direction: the test may fail to cross the threshold when drift is present because the bins are so noisy that they mask the distributional shift. This is exactly the sparse-bucket failure mode identified by Taplin and Hunt (2019), now confirmed empirically under controlled conditions.
+The inversion for PSI at small window sizes (missed detection rate 0.74% at window_size = 50, zero at window_size ≥ 500) is a separate phenomenon, not dilution but statistical instability. PSI's binning mechanism requires enough samples per bin to produce reliable density estimates. With window_size = 50 and 10 equal-frequency bins, each bin receives on average 5 samples; random fluctuations at this scale produce bin proportions that are noisy even in the absence of drift. The consequence is that PSI's detection threshold (0.25) can be masked by noise in either direction: the test may fail to cross the threshold when drift is present because the bins are so noisy that they mask the distributional shift. This is exactly the sparse-bucket failure mode identified by Taplin and Hunt (2019), now confirmed empirically under controlled conditions.
 
 The KS test shows the opposite: missed detection at small window sizes due to low statistical power (fewer samples → less power to detect the same effect size), and zero missed detections at larger windows as power increases. This asymmetry points to a fundamental incompatibility between the two detectors' failure modes: the conditions that make KS unreliable (small windows, low power) are the conditions under which PSI is most reliable for detection, and vice versa. An ensemble approach combining KS and PSI signals, triggering on union or intersection, could exploit this complementarity, though designing the correct combination rule without inflating false positive rates is a non-trivial task.
 
@@ -90,13 +92,13 @@ The implications for system design are practical and encouraging. Memory budgets
 
 The combined RQ3 findings establish a clear design priority hierarchy for practitioners configuring drift monitoring under resource constraints:
 
-1. **Protect monitoring frequency first.** The magnitude of the monitoring frequency effect (H = 1,948.767) and the structural missed detection failure at monitoring\_frequency = 1,000 make this the most consequential parameter. If resources must be conserved, sacrifice window size or reference size before reducing monitoring frequency below 100 samples.
+1. **Protect monitoring frequency first.** The magnitude of the monitoring frequency effect (H = 1,948.767) and the structural missed detection failure at monitoring_frequency = 1,000 make this the most consequential parameter. If resources must be conserved, sacrifice window size or reference size before reducing monitoring frequency below 100 samples.
 
 2. **Window size is the secondary lever.** A smaller window detects drift faster (at the cost of noisier PSI estimates); a larger window is more stable statistically but dilutes recent shift signals. A window of 100–500 samples represents a reasonable operating range for the drift types and magnitudes studied here.
 
 3. **Reference size has a floor, not a scale.** Maintain at least 500 reference samples. Once above this threshold, allocating further memory to the reference set has marginal benefit.
 
-This hierarchy has not, to this author's knowledge, been stated empirically in the literature. Yang and Shami (2021) and Preuveneers et al. (2020) identify these parameters as important but do not rank their relative impact. The present study provides that ranking.
+This hierarchy has not, to the author's knowledge, been stated empirically in the literature. Yang and Shami (2021) and Preuveneers et al. (2020) identify these parameters as important but do not rank their relative impact. The present study provides that ranking.
 
 ---
 
@@ -108,7 +110,7 @@ The finding that Random Forest suffers significantly less accuracy degradation u
 
 The mechanism operates through decorrelation rather than regularisation. Because each tree in the Random Forest is grown from a different bootstrap sample and considers only a random subset of features at each split, no two trees rely on identical decision boundaries. When a given feature's distribution shifts, only the subset of trees whose splits depend heavily on that feature are strongly affected; the remaining trees, having partitioned the input space using different features or different thresholds, continue to classify displaced instances correctly. The ensemble average absorbs the shift-induced error in a subset of trees rather than propagating it uniformly across the whole ensemble.
 
-LightGBM's boosting procedure works differently, and this difference is the more plausible source of its greater fragility. Each tree is fit sequentially to the residual error of the ensemble built so far, and its leaf-wise growth strategy (Ke et al., 2017) greedily pursues the split that yields the largest reduction in training loss at each step. This concentrates the ensemble's decision capacity on the small set of features and thresholds that were most informative on the reference training distribution. Because later trees correct the residual of earlier ones, a distributional shift that degrades the earliest trees' predictions is not independently absorbed by later trees: it is instead propagated as a mis-estimated residual and compounded across boosting rounds. Regularisation (min\_data\_in\_leaf, lambda\_l1, lambda\_l2, all at their default non-zero values here) constrains overfitting to sparse leaves, but it does not decorrelate the trees from one another, so it does not reproduce the ensemble-averaging protection that Random Forest exhibits.
+LightGBM's boosting procedure works differently, and this difference is the more plausible source of its greater fragility. Each tree is fit sequentially to the residual error of the ensemble built so far, and its leaf-wise growth strategy (Ke et al., 2017) greedily pursues the split that yields the largest reduction in training loss at each step. This concentrates the ensemble's decision capacity on the small set of features and thresholds that were most informative on the reference training distribution. Because later trees correct the residual of earlier ones, a distributional shift that degrades the earliest trees' predictions is not independently absorbed by later trees: it is instead propagated as a mis-estimated residual and compounded across boosting rounds. Regularisation (min_data_in_leaf, lambda_l1, lambda_l2, all at their default non-zero values here) constrains overfitting to sparse leaves, but it does not decorrelate the trees from one another, so it does not reproduce the ensemble-averaging protection that Random Forest exhibits.
 
 This reframes, rather than confirms, the pattern reported by Kore et al. (2024) in medical imaging drift, where higher-expressivity models showed sharper performance drops under distribution shift. Expressivity alone is not the determining factor here: Random Forest is at least as expressive as LightGBM (both are non-parametric tree ensembles capable of fitting complex, non-linear boundaries), yet it is the more robust of the two. What distinguishes them is the *structure* of the ensemble, bagged and decorrelated versus boosted and sequentially dependent, not the raw capacity of the model class.
 
@@ -120,7 +122,7 @@ The non-significant difference between LightGBM and Logistic Regression (p = 0.1
 
 Decomposing the model comparison by dataset shows that Random Forest's advantage over LightGBM is not an artefact of a single dataset, but its magnitude does vary considerably. On Predictive Maintenance, the dataset closest to its accuracy ceiling (Section 5.3.3), both tree ensembles degrade substantially (Random Forest 4.00 percentage points, LightGBM 4.71 points), while Logistic Regression is markedly more stable (0.72 points). On Credit Default, degradation is small across all three models, with LightGBM the least robust (0.81 points), Random Forest intermediate (0.46 points), and Logistic Regression the most robust (0.23 points). On Telco Churn the pattern inverts sharply: Logistic Regression degrades by 7.01 percentage points, more than five times any other model-dataset combination in the study, while Random Forest is essentially unaffected (0.06 points) and LightGBM is moderate (1.02 points).
 
-Two conclusions follow. First, Random Forest's advantage over LightGBM is consistent in direction across all three datasets, which supports the generality of the bagging-versus-boosting mechanism proposed in Section 5.5.1 rather than attributing it to one dataset's idiosyncrasies. Second, Logistic Regression's aggregate degradation is driven almost entirely by its anomalous failure on Telco Churn; on the other two datasets it is competitive with or better than both ensembles. A plausible explanation is that Logistic Regression's robustness is conditional on how well the true decision boundary approximates a linear surface in the drifted feature: where that approximation holds, a fixed linear separator is naturally insensitive to shift; where it does not, the model has no capacity to adapt its boundary shape the way an ensemble method can. Testing this explanation directly would require documenting each drifted feature's marginal relationship to the target label per run, a finer-grained analysis that this study's design does not currently support, and which is noted as a direction for future work in Section 5.7.4.
+Two conclusions follow. First, Random Forest's advantage over LightGBM is consistent in direction across all three datasets, which supports the generality of the bagging-versus-boosting mechanism proposed in Section 5.5.1 rather than attributing it to one dataset's idiosyncrasies. Second, Logistic Regression's aggregate degradation is driven almost entirely by its anomalous failure on Telco Churn; on the other two datasets it is competitive with or better than both ensembles. A plausible explanation is that Logistic Regression's robustness is conditional on how well the true decision boundary approximates a linear surface in the drifted feature: where that approximation holds, a fixed linear separator is naturally insensitive to shift; where it does not, the model has no capacity to adapt its boundary shape the way an ensemble method can. Testing this explanation directly would require documenting each drifted feature's marginal relationship to the target label per run, a finer-grained analysis that this study's design does not currently support, and which is noted as a direction for future work in Section 5.10.
 
 ---
 
@@ -140,39 +142,57 @@ This priority hierarchy, **monitoring regime first, drift type awareness second,
 
 ---
 
-## 5.7 Limitations
+## 5.7 Contributions of the Study
 
-### 5.7.1 Simulated Drift vs. Real-World Drift
+This study makes four primary contributions to the field:
+
+**Contribution 1: Constraint-performance surface characterisation.** The study provides the first systematic empirical characterisation of how three resource constraint parameters (monitoring frequency, detection window size, reference window size) jointly affect the detection delay and missed detection rate of three lightweight distribution-based drift detectors. The 8,100-run experimental design yields a constraint-performance surface that is sufficiently dense to support quantitative comparisons and practical recommendations.
+
+**Contribution 2: Priority hierarchy for deployment decisions.** By establishing the relative effect sizes of detector choice, drift type, and each constraint parameter, the study produces a ranked ordering of deployment decisions by their impact on monitoring effectiveness. This priority hierarchy, monitoring regime first, drift type awareness second, detector and model choice third, is directly actionable by practitioners designing monitoring systems.
+
+**Contribution 3: Reference window threshold identification.** The study identifies a functional equivalence threshold for reference window size: 500 samples provides detection performance indistinguishable from an unlimited reference window, while 100 samples is insufficient. This threshold supports memory-efficient reference storage in resource-constrained deployments without sacrificing detection quality.
+
+**Contribution 4: Model robustness characterisation under drift.** The study provides a multi-dataset, multi-drift-type characterisation of how Random Forest, Logistic Regression, and LightGBM differ in their robustness to drift-induced performance degradation. The medium-effect advantage of Random Forest over LightGBM (r = 0.383) is a practically meaningful finding for model selection in non-stationary deployment contexts.
+
+---
+
+## 5.8 Limitations
+
+### 5.8.1 Simulated Drift vs. Real-World Drift
 
 The drift patterns in this study, namely sudden, gradual, and recurring, are clean, analytically defined, single-feature perturbations applied at a known time and magnitude. Real-world drift is typically messier: simultaneous shifts across multiple features, shifts of varying magnitude in different features, noise confounded with genuine drift, and drift that interacts with class label shifts rather than acting purely on features (Lu et al., 2019; Gemaque et al., 2020).
 
 The controlled simulation approach is methodologically necessary for isolating the effects of each variable of interest and for obtaining statistically valid comparisons. But it introduces an idealisation that limits the direct transferability of the specific quantitative thresholds (e.g., the 500-sample reference floor, the 37-fold delay range) to operational settings with naturalistic drift. The direction of the findings, which variables matter most, and in what order, is expected to generalise; the specific magnitudes are study-specific.
 
-### 5.7.2 Univariate Rather Than Multivariate Detection
+### 5.8.2 Univariate Rather Than Multivariate Detection
 
 All three detectors in this study monitor individual features sequentially and report drift if any feature triggers. This is the standard practice for tabular data monitoring (Arora et al., 2024) but does not detect multivariate drift in the interaction structure of features, a limitation directly identified by Taplin and Hunt (2019) as a known failure mode of PSI, and one that extends to KS and Wasserstein when applied univariately. Two features may each show only marginal individual drift while jointly exhibiting a large shift in their correlation structure. The present study cannot speak to whether the detectors succeed or fail under this multivariate regime.
 
 Extending the experimental design to multivariate drift detection (using multivariate versions of the KS test, the Maximum Mean Discrepancy, or the multivariate Wasserstein distance as studied by Rabanser et al. (2019) in their "Failing Loudly" benchmark) is a natural direction for follow-on work.
 
-### 5.7.3 Fixed Detection Thresholds
+### 5.8.3 Fixed Detection Thresholds
 
 The thresholds used in this study, namely KS p-value < 0.05, PSI > 0.25, and Wasserstein > 0.25, are the conventional default values from the literature. All three detectors are sensitive to threshold choice; a more liberal KS threshold (e.g., α = 0.10) would reduce missed detections at the cost of more false positives, and a lower PSI threshold (e.g., 0.10) would detect earlier but with substantially more false alarms. The comparative findings reflect a specific point on each detector's ROC curve, not a global comparison across their full operating ranges.
 
 A threshold-free comparison, for example comparing the area under the receiver operating characteristic curve as a function of the detection threshold, would provide a more complete characterisation of relative detector performance, and is noted as a methodological refinement for future work.
 
-### 5.7.4 Dataset Scope and Generalisability
+### 5.8.4 Dataset Scope and Generalisability
 
-Three datasets, namely Credit Default (30,000 samples, financial domain), Telco Churn (7,043 samples, telecommunications domain), and Predictive Maintenance (10,000 samples, industrial IoT domain), provide breadth across domains but are insufficient to establish generalisability across the full range of ML deployment contexts. High-dimensional datasets (more than 30 features), time-series datasets, multi-class problems with more than two labels, and datasets with strong temporal auto-correlation would each present different detection challenges.
+Three datasets, namely Credit Default (30,000 samples, financial domain), Telco Churn (7,043 samples, telecommunications domain), and Predictive Maintenance (10,000 samples, industrial IoT domain), provide breadth across domains but are insufficient to establish generalisability across the full range of ML deployment contexts. High-dimensional datasets (more than 30 features), time-series datasets, multi-class problems with more than two labels, and datasets with strong temporal auto-correlation would each present different detection challenges. The findings of Barros & Santos (2018) suggest that detector behaviour may change qualitatively at the scale of millions of instances; the present study cannot characterise behaviour at that scale.
 
 The three datasets used are well-established benchmarks in the drift and monitoring literature and were chosen specifically to represent a range of baseline difficulty and domain characteristics. They provide a more controlled basis for comparison than bespoke datasets, but replication on a wider benchmark suite, such as the STORM benchmark proposed by Lukats et al. (2024) for unsupervised drift detectors, would strengthen confidence in the findings. A related gap specific to the model robustness results (Section 5.5.3) is that the per-run drifted feature's marginal relationship to the target label was not recorded; capturing this would allow the Logistic Regression anomaly on Telco Churn to be tested directly rather than inferred post hoc.
 
-### 5.7.5 Detection Without Adaptation
+### 5.8.5 Labelled Comparison Only
+
+The model comparison uses classification accuracy as the primary performance metric. Calibration and operational metrics at specific decision thresholds are not evaluated as part of the core comparison; the robustness findings are specific to the accuracy dimension, supplemented in Chapter 4 by balanced accuracy and AUC as imbalance-aware checks.
+
+### 5.8.6 Detection Without Adaptation
 
 This study evaluates drift detection in isolation, measuring when and how reliably drift is flagged, but does not evaluate the downstream adaptation response (retraining, model switching, or ensemble updating) triggered by that flag. In a full operational system, what matters is not only the detection delay but the combined latency from drift onset to restored model performance, which is a function of detection delay plus retraining time plus redeployment overhead. The present findings quantify the first component only. Integrating detection with adaptation is a well-studied problem (Lu et al., 2019; Suárez-Cetrulo et al., 2022; Yang & Shami, 2021) but was outside the scope of this study's controlled design.
 
 ---
 
-## 5.8 Implications for Practice
+## 5.9 Implications for Practice
 
 The findings translate into a set of evidence-based recommendations for practitioners deploying drift monitoring on tabular ML systems under resource constraints.
 
@@ -192,38 +212,36 @@ The findings translate into a set of evidence-based recommendations for practiti
 
 ---
 
-## 5.9 Positioning Relative to the Literature
+## 5.10 Directions for Future Research
 
-This study occupies a specific position in the drift detection literature that is worth stating explicitly. Most empirical drift detection comparisons evaluate performance under a single, unconstrained monitoring configuration and report which detector performs best on average (Rabanser et al., 2019; Lukats et al., 2024). This study's contribution is different: it evaluates how the interaction between detector choice and resource constraint governs performance, establishing that constraint configuration dominates detector choice as a determinant of detection latency. This question has been raised conceptually (Yang & Shami, 2021; Preuveneers et al., 2020) but not, to this author's knowledge, answered empirically with the systematic factorial design used here.
+The findings and limitations of this study suggest several productive directions for future research:
+
+**1. Multivariate drift detection under constraints.** Extending the constraint-aware evaluation framework to multivariate distributional tests, such as the Maximum Mean Discrepancy (MMD), Least-Squares Density Difference (LSDD), or the sliced Wasserstein distance, would determine whether the constraint-performance relationships identified here generalise beyond feature-wise univariate tests.
+
+**2. Adaptive threshold calibration.** All three detectors in this study use fixed thresholds throughout the evaluation. Adaptive thresholding strategies, where the detection threshold is calibrated dynamically based on recent false positive and false negative rates, may substantially reduce missed detections under gradual drift. Empirical comparison of fixed versus adaptive thresholding under constraint conditions is a direct extension of this work.
+
+**3. Recurring drift with memory.** The finding that recurring drift is as detectable as sudden drift raises the question of whether detection performance can be improved further by explicitly maintaining model snapshots from prior concept periods. A comparison of window-based detectors (as used here) against memory-based adaptive ensembles (as reviewed by Gama et al., 2013) under constraint conditions would clarify whether stored memory provides detection benefits beyond what windowed comparison achieves.
+
+**4. Real-world streaming datasets.** Extending the framework to datasets with naturally occurring drift, such as financial time series, IoT sensor streams, or healthcare monitoring data, would test whether the synthetic drift injection results transfer to organic distributional change. The evaluation challenges identified by Lukats et al. (2024) for real-world streams (absence of ground truth drift timestamps) would need to be addressed through annotation or proxy metrics.
+
+**5. Energy and communication constraints.** The present study operationalises resource constraints as monitoring frequency, window size, and reference size, parameters relevant to CPU and memory budgets. Edge and IoT deployments also face energy consumption limits and communication bandwidth constraints. Extending the framework to include energy-aware drift detection policies is a practically important direction.
+
+**6. Ensemble detectors.** Each detector is evaluated independently in this study. An ensemble that combines the outputs of KS, PSI, and Wasserstein, taking a majority vote or a weighted combination, may achieve lower missed detection rates and detection delays than any single detector, particularly under gradual drift where individual test statistics are weak. The resource cost of running three detectors simultaneously could be evaluated against the performance gain.
+
+---
+
+## 5.11 Positioning Relative to the Literature
+
+This study occupies a specific position in the drift detection literature that is worth stating explicitly. Most empirical drift detection comparisons evaluate performance under a single, unconstrained monitoring configuration and report which detector performs best on average (Rabanser et al., 2019; Lukats et al., 2024). This study's contribution is different: it evaluates how the interaction between detector choice and resource constraint governs performance, establishing that constraint configuration dominates detector choice as a determinant of detection latency. This question has been raised conceptually (Yang & Shami, 2021; Preuveneers et al., 2020) but not, to the author's knowledge, answered empirically with the systematic factorial design used here.
 
 The finding that monitoring regime is the primary design variable, and that all three tested detectors are approximately equivalent in delay once the regime is fixed, has direct relevance for the growing body of work on edge and IoT drift monitoring. It suggests that research effort focused on developing more sophisticated detection algorithms, while valuable for accuracy under single-configuration conditions, may yield lower practical return than research into adaptive monitoring scheduling: algorithms that dynamically adjust monitoring frequency and window size based on detected or predicted drift risk. This is consistent with the direction pursued by Yang and Shami (2021) in their OASW framework, and suggests that the most impactful next step in this research line is the development and evaluation of adaptive monitoring schedulers, not better static detectors.
 
 ---
 
-## References
+## 5.12 Concluding Remarks
 
-Arora, S., Rani, R., & Saxena, N. (2024). A systematic review on detection and adaptation of concept drift in streaming data using machine learning techniques. *Wiley Interdisciplinary Reviews: Data Mining and Knowledge Discovery*, 14. https://doi.org/10.1002/widm.1536
+This study began from a simple observation: that the literature on drift detection has extensively characterised *which algorithms work* but has said little about *whether they still work when resources are constrained*. The empirical answer provided by this study is that they do, but that the configuration of the monitoring system matters far more than the choice of algorithm. A well-configured PSI monitor detects drift reliably; a poorly-configured Wasserstein monitor misses it. The 37-fold range in detection delay across constraint configurations, compared to the modest effect sizes for between-detector comparisons, makes this conclusion quantitatively concrete.
 
-Breiman, L. (2001). Random Forests. *Machine Learning*, 45, 5–32. https://doi.org/10.1023/A:1010933404324
+The practical guidance distilled from 8,100 experiments is straightforward: prioritise monitoring frequency and window size over detector selection; ensure at least 500 reference samples; build in sensitivity to gradual drift, not just sudden changes; and prefer Random Forest over LightGBM when the deployment environment is known to be non-stationary and retraining is costly. These are not complex recommendations. They are the kind of recommendations that can only be made after systematic empirical investigation of a parameter space that the existing literature has largely ignored.
 
-Gemaque, R., Costa, A., Giusti, R., & Santos, E. (2020). An overview of unsupervised drift detection methods. *Wiley Interdisciplinary Reviews: Data Mining and Knowledge Discovery*, 10. https://doi.org/10.1002/widm.1381
-
-Ke, G., Meng, Q., Finley, T., Wang, T., Chen, W., Ma, W., Ye, Q., & Liu, T.-Y. (2017). LightGBM: A highly efficient gradient boosting decision tree. *Advances in Neural Information Processing Systems*, 30, 3146–3154.
-
-Kore, A., Bavil, E., Subasri, V., Abdalla, M., Fine, B., Dolatabadi, E., & Abdalla, M. (2024). Empirical data drift detection experiments on real-world medical imaging data. *Nature Communications*, 15. https://doi.org/10.1038/s41467-024-46142-w
-
-Lu, J., Liu, A., Dong, F., Gu, F., Gama, J., & Zhang, G. (2019). Learning under Concept Drift: A Review. *IEEE Transactions on Knowledge and Data Engineering*, 31, 2346–2363. https://doi.org/10.1109/tkde.2018.2876857
-
-Lukats, D., Zielinski, O., Hahn, A., & Stahl, F. (2024). A benchmark and survey of fully unsupervised concept drift detectors on real-world data streams. *International Journal of Data Science and Analytics*, 19, 1–31. https://doi.org/10.1007/s41060-024-00620-y
-
-Preuveneers, D., Tsingenopoulos, I., & Joosen, W. (2020). Resource usage and performance trade-offs for machine learning models in smart environments. *Sensors*, 20(4), 1176. https://doi.org/10.3390/s20041176
-
-Rabanser, S., Günnemann, S., & Lipton, Z. (2019). Failing loudly: An empirical study of methods for detecting dataset shift. *Advances in Neural Information Processing Systems*, 32, 1394–1406.
-
-Suárez-Cetrulo, A., Quintana, D., & Cervantes, A. (2022). A survey on machine learning for recurring concept drifting data streams. *Expert Systems with Applications*, 213, 118934. https://doi.org/10.1016/j.eswa.2022.118934
-
-Taplin, R., & Hunt, C. (2019). The population accuracy index: A new measure of population stability for model monitoring. *Risks*, 7(2), 53. https://www.mdpi.com/2227-9091/7/2/53
-
-Villani, C. (2009). *Optimal Transport: Old and New*. Springer.
-
-Yang, L., & Shami, A. (2021). A Lightweight Concept Drift Detection and Adaptation Framework for IoT Data Streams. *IEEE Internet of Things Magazine*, 4, 96–101. https://doi.org/10.1109/iotm.0001.2100012
+The broader implication is that the evaluation of drift detection systems must routinely account for the resource conditions under which they will actually be deployed. A detector that performs well in a benchmark with unlimited memory and continuous monitoring is not necessarily the right choice for a system that checks every thousand samples with a 50-sample detection window. The deployment context should inform the algorithm choice, not the other way around. This study provides an initial empirical foundation for making that choice with evidence rather than assumption.

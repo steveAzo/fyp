@@ -31,7 +31,15 @@ Table 4.1 reports aggregate performance metrics for the three detectors, namely 
 
 The data reveal a three-way tension between delay, reliability, and computational cost that is central to the findings of this study. Wasserstein distance achieved the lowest missed detection rate (0.37%) and the shortest mean detection delay (205.52 windows), but incurred a higher false positive count than KS. PSI showed the lowest missed detection rate among all three detectors but imposed the longest mean detection delay (291.73 windows) and also generated the most false positives per run. The KS test exhibited an intermediate missed detection rate (1.11%) with competitive mean delay but required substantially more computation (378.51 ms per run) than either alternative.
 
-These headline differences are visually characterised in Figure 4.1 (fig5\_compute\_time.png) and Figure 4.3 (fig3\_tradeoff\_curves.png) in the results directory. The tradeoff curves (Figure 4.3) confirm that no single detector dominates on all dimensions simultaneously; the optimal choice depends on which metric is most costly in the deployment context (Lu et al., 2019).
+These headline differences are visually characterised in Figure 4.1 and Figure 4.3. The tradeoff curves (Figure 4.3) confirm that no single detector dominates on all dimensions simultaneously; the optimal choice depends on which metric is most costly in the deployment context (Lu et al., 2019).
+
+![Mean computation time per monitoring run, by detector and window size](../../04_results/plots/fig5_compute_time.png)
+
+**Figure 4.1.** Mean total computation time (ms) per monitoring run, by detector and window size.
+
+![Detection delay vs. monitoring frequency, by window size and detector](../../04_results/plots/fig3_tradeoff_curves.png)
+
+**Figure 4.3.** Detection delay as a function of monitoring frequency, with one line per window size, faceted by detector.
 
 ### 4.2.2 Detection Delay: Statistical Evidence
 
@@ -81,7 +89,11 @@ Gradual drift is significantly harder to detect than both sudden drift (r = -0.3
 
 The absence of a significant difference between sudden and recurring drift (p = 1.000 after Bonferroni correction, r = 0.012) is a substantively informative null result. Recurring drift, despite its oscillating nature, is just as detectable as sudden drift once a full cycle has completed. This finding aligns with the structure of the simulator: recurring drift, during its active phase, applies the same magnitude shift as sudden drift; the detector encounters an identical distributional gap. What varies with recurring drift is the frequency of expected alarms, not the per-alarm detectability.
 
-These findings are visualised in Figure 4.2 (fig6\_delay\_by\_drift\_type.png) in the results directory, which shows the full delay distributions for each drift type as violin plots.
+These findings are visualised in Figure 4.2, which shows the full delay distributions for each drift type and detector.
+
+![Detection delay distribution by drift type and detector](../../04_results/plots/fig6_delay_by_drift_type.png)
+
+**Figure 4.2.** Detection delay distribution (boxplot) by drift type and detector.
 
 ### 4.3.2 Accuracy Degradation by Drift Type and Dataset
 
@@ -176,7 +188,11 @@ The implication for resource-constrained deployment is practical and encouraging
 
 ### 4.4.5 Constraint Interactions: Monitoring Frequency × Window Size
 
-Table 4.9 presents the mean detection delay at the intersection of monitoring frequency and window size, averaged across all other conditions. This is the cross-tabulation underlying Figure 4.1 (fig1\_delay\_heatmap.png) in the results directory.
+Table 4.9 presents the mean detection delay at the intersection of monitoring frequency and window size, averaged across all other conditions. This is the cross-tabulation underlying Figure 4.4.
+
+![Mean detection delay by monitoring frequency and window size, per detector](../../04_results/plots/fig1_delay_heatmap.png)
+
+**Figure 4.4.** Mean detection delay (samples) by monitoring frequency × window size, faceted by detector.
 
 **Table 4.9: Mean Detection Delay (windows): Monitoring Frequency × Window Size**
 
@@ -215,6 +231,10 @@ In both significant comparisons, the negative r values indicate that Random Fore
 The finding that Random Forest is the *most* robust to drift-induced degradation is consistent with the established understanding of ensemble variance reduction (Breiman, 2001), extended here from robustness to training noise to robustness under covariate shift. Random Forest's bagging and per-split feature randomisation decorrelate its constituent trees: when a given feature's distribution shifts, only the subset of trees whose splits depend heavily on that feature are strongly affected, and the ensemble average absorbs this local error rather than propagating it uniformly. LightGBM's boosting procedure has no equivalent decorrelation mechanism: each tree is fit sequentially to the residual of the ensemble built so far, so a shift that degrades an early tree's predictions is compounded across subsequent boosting rounds rather than averaged away (Ke et al., 2017). This mechanism is developed further in Chapter 5.
 
 It is essential to note that the model comparison experiment controlled resource constraints at fixed values (monitoring\_frequency = 100, window\_size = 500, reference\_size = unlimited) and used the same detectors across models. The differences in accuracy\_degradation are therefore attributable to the classifiers themselves, not to any variation in the monitoring regime. The drift detectors, being purely distribution-based and model-agnostic, were not affected by model choice.
+
+![Relative accuracy degradation under drift, by model and dataset](../../04_results/plots/fig9_model_robustness_relative.png)
+
+**Figure 4.5.** Mean relative accuracy degradation ((baseline minus post-drift accuracy) divided by baseline) by model, per dataset.
 
 **Robustness check: relative degradation.** The absolute degradation metric used above (baseline − post-drift accuracy) does not control for the fact that models with different baseline accuracy have different amounts of "room" to degrade. As a robustness check, degradation was recomputed as a relative measure, Δ_rel = (baseline − post-drift) / baseline, and the pairwise tests re-run. Both significant effects are numerically unchanged (RF vs. LightGBM: r = −0.383; RF vs. Logistic Regression: r = −0.185), confirming that Random Forest's advantage is not an artefact of baseline accuracy differences. The relative metric additionally finds LightGBM significantly more robust than Logistic Regression (r = −0.185, p = 0.025 after Bonferroni correction), a distinction the absolute metric could not separate from chance (p = 0.160). Correcting for the baseline-accuracy confound therefore sharpens the finding into a complete, significant three-way ordering (Random Forest > LightGBM > Logistic Regression) rather than changing its direction.
 
@@ -283,31 +303,3 @@ The results across all four research questions converge on five primary conclusi
 **Finding 5: Random Forest suffers significantly less drift-induced accuracy degradation than LightGBM (medium effect, |r| = 0.383) or Logistic Regression (small effect, |r| = 0.185), particularly on the Predictive Maintenance dataset.** Random Forest's bagged, decorrelated ensemble structure makes it more robust to distributional perturbation than LightGBM's sequentially-boosted trees, an advantage confirmed across a range of tree depths and boosting learning rates (Section 4.5.3). Its advantage over LightGBM also holds under balanced accuracy and AUC (Section 4.5.4), though its advantage over Logistic Regression is specific to accuracy-based metrics and narrows substantially once class imbalance is accounted for. In deployments where retraining is expensive, overall accuracy is the priority, and the cost of degraded predictions is high, Random Forest is the preferred classifier among those tested.
 
 These five findings are interpreted in the context of the broader literature and their implications for system design in Chapter 5.
-
----
-
-## References
-
-Arora, S., Rani, R., & Saxena, N. (2024). A systematic review on detection and adaptation of concept drift in streaming data using machine learning techniques. *Wiley Interdisciplinary Reviews: Data Mining and Knowledge Discovery*, 14. https://doi.org/10.1002/widm.1536
-
-Breiman, L. (2001). Random Forests. *Machine Learning*, 45, 5–32. https://doi.org/10.1023/A:1010933404324
-
-Cohen, J. (1988). *Statistical Power Analysis for the Behavioral Sciences* (2nd ed.). Lawrence Erlbaum Associates.
-
-Gemaque, R., Costa, A., Giusti, R., & Santos, E. (2020). An overview of unsupervised drift detection methods. *Wiley Interdisciplinary Reviews: Data Mining and Knowledge Discovery*, 10. https://doi.org/10.1002/widm.1381
-
-Ke, G., Meng, Q., Finley, T., Wang, T., Chen, W., Ma, W., Ye, Q., & Liu, T.-Y. (2017). LightGBM: A highly efficient gradient boosting decision tree. *Advances in Neural Information Processing Systems*, 30, 3146–3154.
-
-Kore, A., Bavil, E., Subasri, V., Abdalla, M., Fine, B., Dolatabadi, E., & Abdalla, M. (2024). Empirical data drift detection experiments on real-world medical imaging data. *Nature Communications*, 15. https://doi.org/10.1038/s41467-024-46142-w
-
-Lu, J., Liu, A., Dong, F., Gu, F., Gama, J., & Zhang, G. (2019). Learning under Concept Drift: A Review. *IEEE Transactions on Knowledge and Data Engineering*, 31, 2346–2363. https://doi.org/10.1109/tkde.2018.2876857
-
-Massey, F. J. (1951). The Kolmogorov-Smirnov test for goodness of fit. *Journal of the American Statistical Association*, 46(253), 68–78. https://doi.org/10.2307/2280095
-
-Preuveneers, D., Tsingenopoulos, I., & Joosen, W. (2020). Resource usage and performance trade-offs for machine learning models in smart environments. *Sensors*, 20(4), 1176. https://doi.org/10.3390/s20041176
-
-Suárez-Cetrulo, A., Quintana, D., & Cervantes, A. (2022). A survey on machine learning for recurring concept drifting data streams. *Expert Systems with Applications*, 213, 118934. https://doi.org/10.1016/j.eswa.2022.118934
-
-Taplin, R., & Hunt, C. (2019). The population accuracy index: A new measure of population stability for model monitoring. *Risks*, 7(2), 53. https://www.mdpi.com/2227-9091/7/2/53
-
-Yang, L., & Shami, A. (2021). A Lightweight Concept Drift Detection and Adaptation Framework for IoT Data Streams. *IEEE Internet of Things Magazine*, 4, 96–101. https://doi.org/10.1109/iotm.0001.2100012
