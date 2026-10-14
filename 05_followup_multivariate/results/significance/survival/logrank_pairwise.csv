@@ -1,6 +1,0 @@
-comparison,ref_detector,comparator,chisq,p_raw,p_bonferroni,p_str,significant_005
-MMD vs KS,MMD,KS,243.907,0.0,0.0,<0.001,True
-MMD vs C2ST,MMD,C2ST,347.456,0.0,0.0,<0.001,True
-MMD vs HDDDM,MMD,HDDDM,111.165,0.0,0.0,<0.001,True
-MMD vs PSI,MMD,PSI,149.686,0.0,0.0,<0.001,True
-MMD vs WASSERSTEIN,MMD,WASSERSTEIN,203.162,0.0,0.0,<0.001,True

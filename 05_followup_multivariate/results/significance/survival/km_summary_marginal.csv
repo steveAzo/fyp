@@ -1,7 +1,0 @@
-detector,class,N,events_detected,censored_missed,miss_rate_pct,p25_samples,median_samples,p75_samples,RMST_tau1400
-MMD,Joint-dependence,2700,2665,35,1.3,94.0,194.0,500.0,300.1
-KS,Marginal-info,2700,2673,27,1.0,50.0,100.0,300.0,228.2
-C2ST,Joint-dependence,2700,2665,35,1.3,94.0,200.0,500.0,319.8
-HDDDM,Marginal-info,2700,2689,11,0.41,50.0,150.0,500.0,270.7
-PSI,Marginal-info,2700,2683,17,0.63,50.0,194.0,500.0,294.7
-WASSERSTEIN,Marginal-info,2700,2679,21,0.78,50.0,124.0,494.0,253.9

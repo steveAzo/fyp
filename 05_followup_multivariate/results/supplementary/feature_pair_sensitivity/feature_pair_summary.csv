@@ -1,7 +1,0 @@
-label,eps2_detector,miss_MMD,miss_C2ST,miss_HDDDM,miss_marginal_info_avg,miss_joint_dep_avg
-credit (main pair),0.2253,0.094,0.478,0.5,0.46,0.286
-"credit (alt pair: ['BILL_AMT1', 'BILL_AMT2'])",0.3522,0.0,0.346,0.451,0.346,0.173
-telco (main pair),0.2146,0.1,0.672,0.561,0.635,0.386
-"telco (alt pair: ['Tenure Months', 'Monthly Charges'])",0.236,0.278,0.728,0.407,0.449,0.503
-maintenance (main pair),0.2871,0.161,0.689,0.539,0.624,0.425
-"maintenance (alt pair: ['Rotational speed [rpm]', 'Torque [Nm]'])",0.5331,0.0,0.623,0.426,0.483,0.312

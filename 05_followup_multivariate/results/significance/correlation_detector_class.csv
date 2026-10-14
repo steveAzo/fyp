@@ -1,2 +1,0 @@
-value_col,n_univariate,n_multivariate,median_univariate,median_multivariate,u_statistic,p_value_raw,effect_size_r
-detection_delay_samples,671,937,144.0,400.0,260377.5,4.0001833929040774e-09,0.172

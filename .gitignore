@@ -1,2 +1,41 @@
-/.claude 
-/05_followup_multivariate
+# Explicitly excluded
+/.claude/
+/05_followup_multivariate/
+
+# Tool / editor folders
+.kilo/
+.vscode/
+.idea/
+
+# Python
+venv/
+.venv/
+env/
+__pycache__/
+*.py[cod]
+.ipynb_checkpoints/
+.pytest_cache/
+
+# Logs
+*.log
+
+# LaTeX build artifacts
+*.aux
+*.bbl
+*.blg
+*.out
+*.toc
+*.synctex.gz
+*.fdb_latexmk
+*.fls
+*.nav
+*.snm
+
+# OS / Office junk
+.DS_Store
+Thumbs.db
+desktop.ini
+~$*
+
+# Secrets
+.env
